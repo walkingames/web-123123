@@ -29,11 +29,13 @@ export const metadata: Metadata = {
     siteName: "WalkinGames",
     locale: "en_US",
     type: "website",
+    images: [{ url: "/WalkinGames.com.png", width: 1270, height: 1270 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "WalkinGames — Indie Game Studio",
     description: "Independent game studio crafting immersive gaming experiences.",
+    images: ["/WalkinGames.com.png"],
   },
   robots: { index: true, follow: true },
   icons: { icon: "/favicon.ico" },
