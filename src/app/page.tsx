@@ -75,7 +75,7 @@ export default function Home() {
                         pointer-events-auto
                         animate-fade-in"
              style={{ animationDelay: "0.2s" }}>
-          <GameCard src="/images/PostYazisiz.png" name="Walkin" fit="cover-top" />
+          <GameCard src="/images/PostWalkin2.png" name="Walkin" fit="cover-top" />
           <GameCard src="/images/DuskfallRequiem.png" name="DuskfallRequiem" />
         </div>
 
