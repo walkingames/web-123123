@@ -1,9 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import dynamic from "next/dynamic";
-import GameCard from "@/components/GameCard";
+import { useTheme } from "@/components/ThemeProvider";
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import ProjectShowcase from "@/components/ProjectShowcase";
+import ContactSection from "@/components/ContactSection";
+import StickerPeel from "@/components/StickerPeel";
 
 const Dither = dynamic(() => import("@/components/Dither"), { ssr: false });
 
@@ -24,70 +28,62 @@ function useReducedMotion() {
 
 export default function Home() {
   const reducedMotion = useReducedMotion();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   return (
-    <div className="relative w-dvw h-dvh overflow-hidden">
-      {/* Animated background */}
-      {!reducedMotion && (
-        <Dither
-          waveColor={[0.38, 0.38, 0.38]}
-          disableAnimation={false}
-          enableMouseInteraction={false}
-          mouseRadius={0}
-          colorNum={25.3}
-          waveAmplitude={0.35}
-          waveFrequency={4}
-          waveSpeed={0.04}
-        />
-      )}
+    <>
+      <Navbar />
 
-      {/* Static fallback for reduced motion */}
-      {reducedMotion && (
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#0a0a0a] via-[#111] to-[#0a0a0a]" />
-      )}
-
-      {/* Content overlay */}
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center
-                      px-4 sm:px-8 md:px-12
-                      pointer-events-none
-                      animate-fade-in">
-
-        {/* Logo */}
-        <div className="pointer-events-auto mb-8 sm:mb-12 md:mb-16 lg:mb-20
-                        transition-all duration-700 ease-out
-                        animate-scale-in">
-          <Image
-            src="/WalkinGames.com.png"
-            alt="WalkinGames"
-            width={500}
-            height={250}
-            priority
-            className="h-auto w-auto
-                       max-w-[75vw] sm:max-w-[60vw] md:max-w-[50vw] lg:max-w-[500px]
-                       max-h-[30vh] sm:max-h-[35vh] md:max-h-[40vh]
-                       object-contain
-                       drop-shadow-[0_0_30px_rgba(255,255,255,0.03)]"
-          />
+      <main id="main" role="main" className="relative">
+        <div className="fixed inset-0 z-0" aria-hidden="true">
+          {!reducedMotion ? (
+            <Dither
+              waveColor={isDark ? [0.38, 0.38, 0.38] : [0.7, 0.7, 0.7]}
+              disableAnimation={false}
+              enableMouseInteraction={false}
+              mouseRadius={0}
+              colorNum={isDark ? 25.3 : 16}
+              waveAmplitude={0.35}
+              waveFrequency={4}
+              waveSpeed={0.04}
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#111] to-[#0a0a0a]" />
+          )}
         </div>
 
-        {/* Game cards */}
-        <div className="flex flex-col sm:flex-row items-center gap-[50px] sm:gap-24 lg:gap-[100px]
-                        pointer-events-auto
-                        animate-fade-in"
-             style={{ animationDelay: "0.2s" }}>
-          <GameCard src="/images/PostWalkin2.png" name="Walkin" fit="cover-top" />
-          <GameCard src="/images/DuskfallRequiem.png" name="DuskfallRequiem" />
+        <div className="fixed inset-0 z-[1] bg-background/40 dark:bg-background/30 backdrop-blur-2xl" aria-hidden="true" />
+
+        <div className="relative z-10">
+          <Hero />
+          <ProjectShowcase />
+          <ContactSection />
         </div>
 
-        {/* Footer hint */}
-        <p className="absolute bottom-6 sm:bottom-8 md:bottom-10
-                     text-white/15 text-[10px] sm:text-xs tracking-[0.2em] uppercase
-                     pointer-events-auto select-none
-                     animate-fade-in"
-           style={{ animationDelay: "0.4s" }}>
-          WalkinGames &mdash; Est. 2025
-        </p>
-      </div>
-    </div>
+        <div className="absolute inset-0 z-20 pointer-events-none">
+          <div className="relative w-full h-full" style={{ minHeight: "200vh" }}>
+            <div className="pointer-events-auto">
+              <StickerPeel imageSrc="/images/sticker-w.svg" width={70} rotate={-12} peelBackHoverPct={20} peelBackActivePct={35} shadowIntensity={0.3} lightingIntensity={0.06} initialPosition={{ x: 200, y: 400 }} peelDirection={0} bounds={{ top: 80, left: 0 }} />
+            </div>
+            <div className="pointer-events-auto">
+              <StickerPeel imageSrc="/images/sticker-a.svg" width={70} rotate={8} peelBackHoverPct={20} peelBackActivePct={35} shadowIntensity={0.25} lightingIntensity={0.05} initialPosition={{ x: 100, y: 250 }} peelDirection={0} bounds={{ top: 80, left: 0 }} />
+            </div>
+            <div className="pointer-events-auto">
+              <StickerPeel imageSrc="/images/sticker-l.svg" width={70} rotate={-5} peelBackHoverPct={20} peelBackActivePct={35} shadowIntensity={0.35} lightingIntensity={0.07} initialPosition={{ x: 300, y: 180 }} peelDirection={0} bounds={{ top: 80, left: 0 }} />
+            </div>
+            <div className="pointer-events-auto">
+              <StickerPeel imageSrc="/images/sticker-k.svg" width={70} rotate={15} peelBackHoverPct={20} peelBackActivePct={35} shadowIntensity={0.3} lightingIntensity={0.06} initialPosition={{ x: 80, y: 520 }} peelDirection={0} bounds={{ top: 80, left: 0 }} />
+            </div>
+            <div className="pointer-events-auto">
+              <StickerPeel imageSrc="/images/sticker-i.svg" width={60} rotate={-18} peelBackHoverPct={20} peelBackActivePct={35} shadowIntensity={0.25} lightingIntensity={0.05} initialPosition={{ x: 350, y: 460 }} peelDirection={0} bounds={{ top: 80, left: 0 }} />
+            </div>
+            <div className="pointer-events-auto">
+              <StickerPeel imageSrc="/images/sticker-n.svg" width={70} rotate={3} peelBackHoverPct={20} peelBackActivePct={35} shadowIntensity={0.3} lightingIntensity={0.06} initialPosition={{ x: 250, y: 620 }} peelDirection={0} bounds={{ top: 80, left: 0 }} />
+            </div>
+          </div>
+        </div>
+      </main>
+    </>
   );
 }
