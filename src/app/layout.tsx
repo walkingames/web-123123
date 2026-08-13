@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Bebas_Neue } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { schabo } from "@/fonts";
-import ThemeProvider from "@/components/ThemeProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,24 +15,17 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const bebasNeue = Bebas_Neue({
-  weight: "400",
-  variable: "--font-bebas",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://walkingames.com"),
-  title: "WalkinGames — Indie Game Studio",
+  title: "WalkinGames — Independent Game Studio",
   description:
-    "WalkinGames is an independent game studio crafting immersive gaming experiences. Discover Walkin and Duskfall Requiem.",
+    "WalkinGames is an independent game studio creating focused, replayable experiences for mobile and PC. Discover Walkin and Duskfall Requiem.",
   keywords: ["WalkinGames", "indie games", "game studio", "Walkin", "Duskfall Requiem", "gaming"],
   authors: [{ name: "WalkinGames" }],
   creator: "WalkinGames",
   openGraph: {
-    title: "WalkinGames — Indie Game Studio",
-    description: "Independent game studio crafting immersive gaming experiences.",
+    title: "WalkinGames — Independent Game Studio",
+    description: "Focused, replayable games with atmosphere and a pulse.",
     url: "https://walkingames.com",
     siteName: "WalkinGames",
     locale: "en_US",
@@ -42,8 +34,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "WalkinGames — Indie Game Studio",
-    description: "Independent game studio crafting immersive gaming experiences.",
+    title: "WalkinGames — Independent Game Studio",
+    description: "Focused, replayable games with atmosphere and a pulse.",
     images: ["/opengraph-image"],
   },
   robots: { index: true, follow: true },
@@ -53,34 +45,18 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#050505" },
-    { media: "(prefers-color-scheme: light)", color: "#f5f5f0" },
-  ],
+  themeColor: "#000000",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${schabo.variable} ${bebasNeue.variable} antialiased`}
-      suppressHydrationWarning
-    >
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${schabo.variable}`}>
       <head>
         <meta name="apple-mobile-web-app-title" content="WalkinGames" />
       </head>
-      <body className="bg-background text-foreground" suppressHydrationWarning>
-        <a
-          href="#main"
-          className="fixed left-4 top-4 z-[100] -translate-y-20 rounded-xl bg-foreground px-4 py-2 text-sm font-medium text-background transition-transform focus:translate-y-0 focus:outline-2 focus:outline-offset-2 focus:outline-foreground"
-        >
-          Skip to content
-        </a>
-        <ThemeProvider>{children}</ThemeProvider>
+      <body suppressHydrationWarning>
+        <a href="#main" className="skip-link">Skip to content</a>
+        {children}
       </body>
     </html>
   );
