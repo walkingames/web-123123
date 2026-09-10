@@ -1,27 +1,93 @@
+"use client";
+
 import Image from "next/image";
+import { useRef } from "react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "motion/react";
+
 import ShinyText from "./ShinyText";
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
 export default function Hero() {
+  const prefersReducedMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  /* ─── scroll parallax ─── */
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.85]);
+
+  /* ─── on-load intro (instant when reduced motion) ─── */
+  const introTransition = (delay: number, duration: number) => ({
+    duration: prefersReducedMotion ? 0 : duration,
+    ease,
+    delay: prefersReducedMotion ? 0 : delay,
+  });
+
+  const stagger = (index: number) => ({
+    initial: { opacity: 0, y: 16 },
+    animate: { opacity: 1, y: 0 },
+    transition: introTransition(0.2 + index * 0.08, 0.5),
+  });
+
   return (
-    <section id="about" className="hero" aria-labelledby="hero-heading">
-      <Image
-        src="/images/walkin-about-hero.png"
-        alt="Walkin gameplay scene with a runner escaping through a city street"
-        fill
-        preload
-        unoptimized
-        sizes="100vw"
-        className="hero__image"
-      />
+    <motion.section
+      ref={sectionRef}
+      id="about"
+      className="hero"
+      aria-labelledby="hero-heading"
+      style={{ opacity: sectionOpacity }}
+    >
+      {/* ─── background image (parallax on wrapper, settle animation on img) ─── */}
+      <motion.div
+        style={{ position: "absolute", inset: 0, zIndex: -3, y: imageY }}
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/walkin-about-hero.png"
+          alt="Walkin gameplay scene with a runner escaping through a city street"
+          fill
+          preload
+          unoptimized
+          sizes="100vw"
+          className="hero__image"
+        />
+      </motion.div>
+
       <div className="hero__shade" aria-hidden="true" />
 
-      <div className="hero__content shell">
-        <div className="hero__eyebrow">
+      {/* ─── shimmer sweep ─── */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 1,
+          pointerEvents: "none",
+          opacity: prefersReducedMotion ? 0 : undefined,
+          animation: prefersReducedMotion ? "none" : "hero-shimmer-sweep 2.2s cubic-bezier(0.45, 0, 0.15, 1) 0.55s both",
+          background:
+            "conic-gradient(from 180deg at 50% 50%, transparent 0deg, transparent 140deg, rgba(255,255,255,0.07) 180deg, transparent 220deg, transparent 360deg)",
+        }}
+      />
+
+      {/* ─── content (parallax + staggered entrance) ─── */}
+      <motion.div className="hero__content shell" style={{ y: contentY }}>
+        <motion.div className="hero__eyebrow" {...stagger(0)}>
           <span className="signal-dot signal-dot--hero" aria-hidden="true" />
           Independent game studio · Mobile &amp; PC
-        </div>
+        </motion.div>
+
         <h1 id="hero-heading" className="hero__title">
-          Games built
+          <motion.span {...stagger(1)} style={{ display: "block" }}>
+            Games built
+          </motion.span>
           <ShinyText
             text="to keep moving."
             speed={3.8}
@@ -37,36 +103,59 @@ export default function Hero() {
             className="hero__title-shine"
           />
         </h1>
-        <div className="hero__footer">
+
+        <motion.div className="hero__footer" {...stagger(3)}>
           <p className="hero__intro">
             WalkinGames creates focused, replayable experiences with strong
             atmosphere, responsive systems, and worlds that invite one more run.
           </p>
           <div className="hero__actions">
-            <a className="button button--solid" href="#games">
+            <motion.a
+              className="button button--solid"
+              href="#games"
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={introTransition(0.72, 0.6)}
+            >
               <span>Explore our games</span>
               <span className="button__icon" aria-hidden="true">
                 <svg viewBox="0 0 20 20" fill="none">
                   <path d="m7 5 5 5-5 5" />
                 </svg>
               </span>
-            </a>
-            <a className="text-link" href="#direction">
+            </motion.a>
+            <motion.a
+              className="text-link"
+              href="#direction"
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={introTransition(0.78, 0.6)}
+            >
               <span>See where we&apos;re going</span>
               <span className="text-link__icon" aria-hidden="true">
                 <svg viewBox="0 0 20 20" fill="none">
                   <path d="m7 5 5 5-5 5" />
                 </svg>
               </span>
-            </a>
+            </motion.a>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       <div className="hero__index" aria-hidden="true">
         <span>WG / 001</span>
         <span>Scroll to discover</span>
       </div>
-    </section>
+
+      {/* ─── keyframes injected via style tag (no globals.css touch) ─── */}
+      <style>{`
+        @keyframes hero-shimmer-sweep {
+          from { transform: rotate(0deg); opacity: 0; }
+          15%  { opacity: 1; }
+          85%  { opacity: 1; }
+          to   { transform: rotate(360deg); opacity: 0; }
+        }
+      `}</style>
+    </motion.section>
   );
 }

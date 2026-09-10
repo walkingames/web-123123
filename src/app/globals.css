@@ -108,13 +108,13 @@ button {
   flex: 0 0 7px;
   border-radius: 50%;
   background: var(--red);
-  box-shadow: 0 0 0 3px rgba(121, 223, 114, 0.08);
+  box-shadow: 0 0 0 3px rgba(236, 255, 0, 0.08);
 }
 
 .signal-dot::after {
   position: absolute;
   inset: -3px;
-  border: 1px solid rgba(121, 223, 114, 0.3);
+  border: 1px solid rgba(236, 255, 0, 0.3);
   border-radius: inherit;
   content: "";
   animation: signal-pulse var(--pulse-duration) var(--pulse-delay) cubic-bezier(0.16, 1, 0.3, 1) infinite;
@@ -161,11 +161,45 @@ button {
   z-index: 100;
   inset: 14px 0 auto;
   height: 66px;
+  --header-inset: 14px;
   pointer-events: none;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.site-header--scrolled {
+/* Scroll-aware surface: a full-width frosted bar that fades in after the page
+   is scrolled (scrollY > 24 in Navbar.tsx). It lives on a pseudo-element so the
+   header itself never gets backdrop-filter/transform containing-block behavior —
+   the fixed mobile menu stays anchored to the viewport. */
+.site-header::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-bottom: 1px solid transparent;
   background: transparent;
+  content: "";
+  pointer-events: none;
+  transition: background-color 240ms ease, border-color 240ms ease;
+}
+
+.site-header--scrolled::before {
+  background: rgba(8, 8, 8, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: rgba(244, 247, 255, 0.08);
+}
+
+/* Smart hide/show: slide up while scrolling down, slide back on scroll up.
+   translateY compensates for the header inset so the bar clears the viewport. */
+.site-header--hidden {
+  transform: translateY(calc(-100% - var(--header-inset, 14px)));
+}
+
+/* Reduced motion: keep the hide/show behavior, drop the slide animation.
+   Mirrors motion/react's useReducedMotion (same media feature). */
+@media (prefers-reduced-motion: reduce) {
+  .site-header {
+    transition: none;
+  }
 }
 
 .site-nav {
@@ -307,6 +341,17 @@ button {
 .nav-link--active::after {
   transform: scaleX(1);
   transform-origin: left;
+}
+
+/* Active section indicator — lime accent in the design language.
+   .site-nav prefix: higher specificity so it wins over the late-palette
+   .nav-link--active overrides further down the file. */
+.site-nav .nav-link--active {
+  color: var(--accent);
+}
+
+.site-nav .nav-link--active::after {
+  background: var(--accent);
 }
 
 .nav-actions {
@@ -550,7 +595,7 @@ button {
 }
 
 .text-link:hover {
-  border-color: rgba(121, 223, 114, 0.68);
+  border-color: rgba(236, 255, 0, 0.68);
   background: rgba(5, 10, 7, 0.42);
   color: var(--white);
   transform: translateY(-2px);
@@ -558,6 +603,13 @@ button {
 
 .text-link:hover .text-link__icon {
   transform: translateX(3px);
+}
+
+/* Hero actions — equal-size buttons */
+.hero__actions .button,
+.hero__actions .text-link {
+  justify-content: space-between;
+  min-width: 192px;
 }
 
 .hero__index {
@@ -902,13 +954,13 @@ button {
   --pulse-duration: 6.8s;
   border-color: var(--red);
   background: var(--red);
-  box-shadow: 0 0 0 4px rgba(121, 223, 114, 0.08);
+  box-shadow: 0 0 0 4px rgba(236, 255, 0, 0.08);
 }
 
 .roadmap__rail i.is-live::after {
   position: absolute;
   inset: -4px;
-  border: 1px solid rgba(121, 223, 114, 0.28);
+  border: 1px solid rgba(236, 255, 0, 0.28);
   border-radius: inherit;
   content: "";
   animation: signal-pulse var(--pulse-duration) var(--pulse-delay) cubic-bezier(0.16, 1, 0.3, 1) infinite;
@@ -1124,6 +1176,7 @@ button {
   .site-header {
     inset: 10px 0 auto;
     height: 60px;
+    --header-inset: 10px;
   }
 
   .site-nav {
@@ -1213,8 +1266,8 @@ button {
     font-family: var(--font-display);
     font-size: 52px;
     line-height: 0.8;
-    text-transform: uppercase;
-  }
+  text-transform: uppercase;
+}
 
   .mobile-menu li a span {
     width: 48px;
@@ -1289,6 +1342,13 @@ button {
   .text-link__icon {
     width: 14px;
     height: 20px;
+  }
+
+  .hero__actions .button,
+  .hero__actions .text-link {
+    justify-content: space-between;
+    min-width: 0;
+    flex: 1 1 0;
   }
 
   .studio-intro {
@@ -1900,7 +1960,7 @@ button {
 }
 
 .roadmap__rail i.is-live {
-  box-shadow: 0 0 0 4px rgba(121, 223, 114, 0.08);
+  box-shadow: 0 0 0 4px rgba(236, 255, 0, 0.08);
 }
 
 .roadmap__content ul li {
@@ -1913,24 +1973,24 @@ button {
 }
 
 .project-card {
-  border-color: rgba(121, 223, 114, 0.2);
+  border-color: rgba(236, 255, 0, 0.2);
   background: #000;
   box-shadow:
     0 30px 90px rgba(0, 0, 0, 0.56),
     inset 0 0 0 1px rgba(255, 255, 255, 0.012);
-  transition: border-color 240ms ease, box-shadow 240ms ease;
+  transition: border-color 240ms ease, box-shadow 240ms ease, background 240ms ease;
 }
 
 .project-card:hover {
-  border-color: rgba(121, 223, 114, 0.34);
+  border-color: rgba(255, 255, 255, 0.85);
   box-shadow:
     0 34px 100px rgba(0, 0, 0, 0.68),
-    0 0 0 1px rgba(121, 223, 114, 0.04);
+    0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 .project-card__art {
   background:
-    radial-gradient(circle at 50% 42%, rgba(121, 223, 114, 0.055), transparent 46%),
+    radial-gradient(circle at 50% 42%, rgba(236, 255, 0, 0.055), transparent 46%),
     #000;
 }
 
@@ -1941,7 +2001,7 @@ button {
 }
 
 .project-card__content {
-  border-left: 1px solid rgba(121, 223, 114, 0.11);
+  border-left: 1px solid rgba(236, 255, 0, 0.11);
   background: #020503;
 }
 
@@ -1952,11 +2012,11 @@ button {
 }
 
 .project-card__details {
-  border-top-color: rgba(121, 223, 114, 0.13);
+  border-top-color: rgba(236, 255, 0, 0.13);
 }
 
 .project-card__details > div + div {
-  border-left-color: rgba(121, 223, 114, 0.13);
+  border-left-color: rgba(236, 255, 0, 0.13);
 }
 
 .project-card__details dt {
@@ -1983,7 +2043,7 @@ button {
   justify-content: space-between;
   min-height: 64px;
   padding: 10px 14px 10px 22px;
-  border-bottom: 1px solid rgba(121, 223, 114, 0.15);
+  border-bottom: 1px solid rgba(236, 255, 0, 0.15);
   background: #010302;
 }
 
@@ -2003,7 +2063,7 @@ button {
   display: flex;
   gap: 4px;
   padding: 4px;
-  border: 1px solid rgba(121, 223, 114, 0.13);
+  border: 1px solid rgba(236, 255, 0, 0.13);
   border-radius: 7px;
   background: #000;
 }
@@ -2029,7 +2089,7 @@ button {
 }
 
 .project-card__switcher button.is-active {
-  box-shadow: inset 0 0 0 1px rgba(121, 223, 114, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(236, 255, 0, 0.22);
 }
 
 .project-card__switcher button span {
@@ -2087,8 +2147,8 @@ button {
   padding: clamp(34px, 4vw, 62px);
   background-color: #000;
   background-image:
-    linear-gradient(rgba(121, 223, 114, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(121, 223, 114, 0.035) 1px, transparent 1px);
+    linear-gradient(rgba(236, 255, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(236, 255, 0, 0.035) 1px, transparent 1px);
   background-size: 42px 42px;
 }
 
@@ -2098,7 +2158,7 @@ button {
   gap: clamp(36px, 7vw, 110px);
   align-items: end;
   padding-bottom: 38px;
-  border-bottom: 1px solid rgba(121, 223, 114, 0.18);
+  border-bottom: 1px solid rgba(236, 255, 0, 0.18);
 }
 
 .tech-dossier__eyebrow {
@@ -2146,7 +2206,7 @@ button {
   min-width: 0;
   min-height: 220px;
   padding: 22px 20px 24px;
-  border: 1px solid rgba(121, 223, 114, 0.16);
+  border: 1px solid rgba(236, 255, 0, 0.16);
   background: rgba(2, 9, 5, 0.92);
 }
 
@@ -2161,7 +2221,7 @@ button {
   right: -8px;
   width: 15px;
   height: 15px;
-  border: 1px solid rgba(121, 223, 114, 0.5);
+  border: 1px solid rgba(236, 255, 0, 0.5);
   border-radius: 50%;
   background: #000;
   color: var(--accent);
@@ -2207,7 +2267,7 @@ button {
 
 .tech-flow ul li {
   padding: 5px 7px;
-  border: 1px solid rgba(121, 223, 114, 0.12);
+  border: 1px solid rgba(236, 255, 0, 0.12);
   border-radius: 3px;
   color: #9eb0a4;
   font-family: var(--font-mono);
@@ -2226,18 +2286,18 @@ button {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: 0;
-  border-top: 1px solid rgba(121, 223, 114, 0.16);
+  border-top: 1px solid rgba(236, 255, 0, 0.16);
 }
 
 .tech-toolchain > div {
   min-width: 0;
   padding: 18px 18px 20px 0;
-  border-bottom: 1px solid rgba(121, 223, 114, 0.13);
+  border-bottom: 1px solid rgba(236, 255, 0, 0.13);
 }
 
 .tech-toolchain > div:nth-child(even) {
   padding-left: 18px;
-  border-left: 1px solid rgba(121, 223, 114, 0.13);
+  border-left: 1px solid rgba(236, 255, 0, 0.13);
 }
 
 .tech-toolchain dt,
@@ -2258,7 +2318,7 @@ button {
 
 .ai-workflow {
   padding: 22px;
-  border: 1px solid rgba(121, 223, 114, 0.22);
+  border: 1px solid rgba(236, 255, 0, 0.22);
   background: linear-gradient(145deg, rgba(18, 42, 26, 0.82), rgba(1, 5, 3, 0.96));
 }
 
@@ -2301,7 +2361,7 @@ button {
 
 .ai-workflow li {
   padding: 8px 0;
-  border-top: 1px solid rgba(121, 223, 114, 0.12);
+  border-top: 1px solid rgba(236, 255, 0, 0.12);
   color: #cbd9cf;
   font-family: var(--font-mono);
   font-size: 8px;
@@ -2324,7 +2384,7 @@ button {
   }
 
   .tech-flow > li + li {
-    border-left: 1px solid rgba(121, 223, 114, 0.16);
+    border-left: 1px solid rgba(236, 255, 0, 0.16);
   }
 
   .tech-flow > li:nth-child(n + 4) {
@@ -2413,7 +2473,7 @@ button {
   }
 
   .project-card__content {
-    border-top: 1px solid rgba(121, 223, 114, 0.11);
+    border-top: 1px solid rgba(236, 255, 0, 0.11);
     border-left: 0;
   }
 }
@@ -2431,10 +2491,11 @@ button {
 }
 
 .project-card--interactive:hover {
-  border-color: rgba(236, 255, 0, 0.46);
+  border-color: transparent;
+  background: #000;
   box-shadow:
-    0 34px 100px rgba(0, 0, 0, 0.72),
-    0 0 0 1px rgba(236, 255, 0, 0.07);
+    0 34px 100px rgba(0, 0, 0, 0.68),
+    0 0 0 1px rgba(200, 200, 200, 0.15);
 }
 
 .project-card--interactive .signal-dot {
@@ -2774,6 +2835,7 @@ button {
 }
 
 .project-card--duskfall {
+  position: relative;
   border-color: rgba(22, 140, 255, 0.34);
   background: #000;
   box-shadow:
@@ -2782,10 +2844,11 @@ button {
 }
 
 .project-card--duskfall:hover {
-  border-color: rgba(236, 255, 0, 0.46);
+  border-color: transparent;
+  background: #000;
   box-shadow:
-    0 34px 100px rgba(0, 0, 0, 0.72),
-    0 0 0 1px rgba(236, 255, 0, 0.07);
+    0 34px 100px rgba(0, 0, 0, 0.68),
+    0 0 0 1px rgba(200, 200, 200, 0.15);
 }
 
 .project-card--duskfall .project-card__art {
@@ -3013,10 +3076,11 @@ button {
 
 .project-card--interactive:hover,
 .project-card--duskfall:hover {
-  border-color: rgba(236, 255, 0, 0.5);
+  border-color: transparent;
+  background: #000;
   box-shadow:
-    0 34px 100px rgba(0, 0, 0, 0.74),
-    0 0 0 1px rgba(236, 255, 0, 0.08);
+    0 34px 100px rgba(0, 0, 0, 0.68),
+    0 0 0 1px rgba(200, 200, 200, 0.15);
 }
 
 .project-card--interactive {
@@ -3187,4 +3251,191 @@ button {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* --- Motion foundation --- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 100;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress {
+    display: none;
+  }
+}
+
+/* --- Ambient dither --- */
+.direction {
+  position: relative;
+}
+
+.direction__ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.direction__ambient + .shell {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Nav mega menu --- */
+.nav-links {
+  position: relative;
+}
+
+.nav-mega {
+  position: absolute;
+  /* 9px compensates for the nav's 1px top+bottom borders (content box is
+     64px inside the 66px pill) so the visual gap below the pill is 8px. */
+  top: calc(100% + 9px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(8, 8, 8, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  z-index: 120;
+  min-width: 320px;
+  pointer-events: auto;
+}
+
+.nav-mega__card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 148px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  background: #000;
+  text-decoration: none;
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.nav-mega__card:hover {
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+.nav-mega__thumb {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  border-radius: 7px;
+  overflow: hidden;
+  display: block;
+  background: #050505;
+}
+
+.nav-mega__img {
+  object-fit: cover;
+}
+
+.nav-mega__label {
+  color: #f4f7ff;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Hover bridge — prevent menu closing while crossing the gap */
+.nav-links__item--mega {
+  position: relative;
+}
+
+.nav-links__item--mega::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 344px;
+  height: 9px;
+}
+
+/* Anchor the mega menu to the full navbar height so the gap is measured
+   from the pill's bottom edge (site-header is a 66px fixed pill and the
+   links are centered inside it — without this the 8px gap lands inside
+   the pill and the panel looks flush with the navbar). */
+.nav-links {
+  height: 100%;
+}
+
+.nav-links li {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Give the nav grid a definite row so percentage heights resolve —
+   .nav-links/li height:100% then span the full 66px pill and the mega
+   menu's top: calc(100% + 8px) measures from the pill's bottom edge. */
+.site-nav {
+  grid-template-rows: 100%;
+  align-items: center;
+}
+
+/* Backdrop blur while the mega menu is open */
+.nav-mega-blur {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: none;
+  animation: nav-mega-fade 180ms ease-out;
+}
+
+@keyframes nav-mega-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Breathing gradient border for project cards (hover) */
+.project-card--interactive::before,
+.project-card--duskfall::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  padding: 1px;
+  background: linear-gradient(135deg, #b9b9b9 0%, #3e3e3e 50%, #b9b9b9 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms ease;
+  z-index: 1;
+}
+
+.project-card--interactive:hover::before,
+.project-card--duskfall:hover::before {
+  opacity: 1;
+  animation: project-card-breathe 2.8s ease-in-out 400ms infinite;
+}
+
+@keyframes project-card-breathe {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 1; }
 }

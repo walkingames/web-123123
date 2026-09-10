@@ -1,5 +1,6 @@
 import Image from "next/image";
 import WalkinProjectCard from "./WalkinProjectCard";
+import Reveal from "./motion/Reveal";
 
 interface Project {
   slug: string;
@@ -55,80 +56,92 @@ export default function ProjectShowcase() {
   return (
     <section className="games-section">
       <div id="studio" className="studio-intro shell" aria-labelledby="studio-heading">
-        <p className="section-kicker">The studio / 2026</p>
-        <div className="studio-intro__grid">
-          <h2 id="studio-heading">
-            Small team.<br />Clear intent.<br /><span>Games with a pulse.</span>
-          </h2>
-          <div className="studio-intro__copy">
-            <p>
-              WalkinGames is an independent studio creating games for mobile
-              and PC. We start with a strong playable idea, then build every
-              system around how it should feel in the player&apos;s hands.
-            </p>
-            <p>
-              Our work moves between immediate arcade energy and darker,
-              atmospheric worlds—always with clarity, iteration, and long-term
-              craft at the center.
-            </p>
+        <Reveal>
+          <p className="section-kicker">The studio / 2026</p>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="studio-intro__grid">
+            <h2 id="studio-heading">
+              Small team.<br />Clear intent.<br /><span>Games with a pulse.</span>
+            </h2>
+            <div className="studio-intro__copy">
+              <p>
+                WalkinGames is an independent studio creating games for mobile
+                and PC. We start with a strong playable idea, then build every
+                system around how it should feel in the player&apos;s hands.
+              </p>
+              <p>
+                Our work moves between immediate arcade energy and darker,
+                atmospheric worlds, always with clarity, iteration, and long-term
+                craft at the center.
+              </p>
+            </div>
           </div>
-        </div>
-
+        </Reveal>
       </div>
 
       <div id="games" className="projects" aria-labelledby="games-heading">
         <header className="projects__header shell">
-          <p className="section-kicker">Selected work / 01—02</p>
-          <h2 id="games-heading">Two worlds.<br /><span>One point of view.</span></h2>
-          <p>Current production and the next horizon for WalkinGames.</p>
+          <Reveal>
+            <p className="section-kicker">Selected work / 01-02</p>
+          </Reveal>
+          <Reveal delay={0.06}>
+            <h2 id="games-heading">Two worlds.<br /><span>One point of view.</span></h2>
+            <p>Current production and the next horizon for WalkinGames.</p>
+          </Reveal>
         </header>
         <div className="project-cards shell">
-          {PROJECTS.map((project) => {
+          {PROJECTS.map((project, index) => {
             if (project.tone === "walkin") {
-              return <WalkinProjectCard key={project.title} project={project} />;
+              return (
+                <Reveal key={project.title} delay={index * 0.12}>
+                  <WalkinProjectCard project={project} />
+                </Reveal>
+              );
             }
 
             return (
-              <article
-                id={`project-${project.slug}`}
-                key={project.title}
-                className={`project-card project-card--${project.tone}`}
-              >
-                <div className="project-card__art">
-                  <div className="project-card__poster">
-                    <Image
-                      src={project.image}
-                      alt={project.imageAlt}
-                      fill
-                      sizes="(max-width: 760px) min(82vw, 420px), (max-width: 1100px) 42vw, 520px"
-                      quality={100}
-                      className="project-card__image"
-                    />
-                  </div>
-                </div>
-
-                <div className="project-card__content">
-                  <div>
-                    <div className="project-card__stage">
-                      <span className="signal-dot signal-dot--duskfall" aria-hidden="true" />
-                      {project.stage}
+              <Reveal key={project.title} delay={index * 0.12}>
+                <article
+                  id={`project-${project.slug}`}
+                  className={`project-card project-card--${project.tone}`}
+                >
+                  <div className="project-card__art">
+                    <div className="project-card__poster">
+                      <Image
+                        src={project.image}
+                        alt={project.imageAlt}
+                        fill
+                        sizes="(max-width: 760px) min(82vw, 420px), (max-width: 1100px) 42vw, 520px"
+                        quality={100}
+                        className="project-card__image"
+                      />
                     </div>
-                    <h3 className="project-card__title">{project.title}</h3>
                   </div>
-                  <div className="project-card__story">
-                    <p className="project-card__summary">{project.summary}</p>
-                    <p className="project-card__description">{project.description}</p>
-                  </div>
-                  <dl className="project-card__details">
-                    {project.details.map((detail) => (
-                      <div key={detail.label}>
-                        <dt>{detail.label}</dt>
-                        <dd>{detail.value}</dd>
+
+                  <div className="project-card__content">
+                    <div>
+                      <div className="project-card__stage">
+                        <span className="signal-dot signal-dot--duskfall" aria-hidden="true" />
+                        {project.stage}
                       </div>
-                    ))}
-                  </dl>
-                </div>
-              </article>
+                      <h3 className="project-card__title">{project.title}</h3>
+                    </div>
+                    <div className="project-card__story">
+                      <p className="project-card__summary">{project.summary}</p>
+                      <p className="project-card__description">{project.description}</p>
+                    </div>
+                    <dl className="project-card__details">
+                      {project.details.map((detail) => (
+                        <div key={detail.label}>
+                          <dt>{detail.label}</dt>
+                          <dd>{detail.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </article>
+              </Reveal>
             );
           })}
         </div>

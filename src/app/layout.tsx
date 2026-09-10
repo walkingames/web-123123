@@ -17,14 +17,14 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://walkingames.com"),
-  title: "WalkinGames — Independent Game Studio",
+  title: "WalkinGames | Independent Game Studio",
   description:
     "WalkinGames is an independent game studio creating focused, replayable experiences for mobile and PC. Discover Walkin and Duskfall Requiem.",
   keywords: ["WalkinGames", "indie games", "game studio", "Walkin", "Duskfall Requiem", "gaming"],
   authors: [{ name: "WalkinGames" }],
   creator: "WalkinGames",
   openGraph: {
-    title: "WalkinGames — Independent Game Studio",
+    title: "WalkinGames | Independent Game Studio",
     description: "Focused, replayable games with atmosphere and a pulse.",
     url: "https://walkingames.com",
     siteName: "WalkinGames",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "WalkinGames — Independent Game Studio",
+    title: "WalkinGames | Independent Game Studio",
     description: "Focused, replayable games with atmosphere and a pulse.",
     images: ["/opengraph-image"],
   },
