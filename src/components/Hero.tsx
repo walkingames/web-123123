@@ -62,21 +62,6 @@ export default function Hero() {
 
       <div className="hero__shade" aria-hidden="true" />
 
-      {/* ─── shimmer sweep ─── */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 1,
-          pointerEvents: "none",
-          opacity: prefersReducedMotion ? 0 : undefined,
-          animation: prefersReducedMotion ? "none" : "hero-shimmer-sweep 2.2s cubic-bezier(0.45, 0, 0.15, 1) 0.55s both",
-          background:
-            "conic-gradient(from 180deg at 50% 50%, transparent 0deg, transparent 140deg, rgba(255,255,255,0.07) 180deg, transparent 220deg, transparent 360deg)",
-        }}
-      />
-
       {/* ─── content (parallax + staggered entrance) ─── */}
       <motion.div className="hero__content shell" style={{ y: contentY }}>
         <motion.div className="hero__eyebrow" {...stagger(0)}>
@@ -146,16 +131,6 @@ export default function Hero() {
         <span>WG / 001</span>
         <span>Scroll to discover</span>
       </div>
-
-      {/* ─── keyframes injected via style tag (no globals.css touch) ─── */}
-      <style>{`
-        @keyframes hero-shimmer-sweep {
-          from { transform: rotate(0deg); opacity: 0; }
-          15%  { opacity: 1; }
-          85%  { opacity: 1; }
-          to   { transform: rotate(360deg); opacity: 0; }
-        }
-      `}</style>
     </motion.section>
   );
 }

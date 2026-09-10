@@ -166,32 +166,18 @@ button {
   transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Scroll-aware surface: a full-width frosted bar that fades in after the page
-   is scrolled (scrollY > 24 in Navbar.tsx). It lives on a pseudo-element so the
-   header itself never gets backdrop-filter/transform containing-block behavior —
-   the fixed mobile menu stays anchored to the viewport. */
-.site-header::before {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  border-bottom: 1px solid transparent;
-  background: transparent;
-  content: "";
-  pointer-events: none;
-  transition: background-color 240ms ease, border-color 240ms ease;
-}
-
-.site-header--scrolled::before {
-  background: rgba(8, 8, 8, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom-color: rgba(244, 247, 255, 0.08);
-}
-
 /* Smart hide/show: slide up while scrolling down, slide back on scroll up.
    translateY compensates for the header inset so the bar clears the viewport. */
 .site-header--hidden {
   transform: translateY(calc(-100% - var(--header-inset, 14px)));
+}
+
+/* While hidden the nav must not be hoverable: the mega-menu hover bridge
+   (::after, 9px) would otherwise stay inside the top of the viewport and
+   re-open the panel below the off-screen navbar. */
+.site-header--hidden .site-nav,
+.site-header--hidden .nav-mega {
+  pointer-events: none;
 }
 
 /* Reduced motion: keep the hide/show behavior, drop the slide animation.

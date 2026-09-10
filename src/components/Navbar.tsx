@@ -56,6 +56,9 @@ export default function Navbar() {
         setHidden(false);
       } else if (scrollY > lastScrollYRef.current + 4) {
         setHidden(true);
+        // Close any open mega menu when the navbar auto-hides — the panel
+        // hangs below the pill and would otherwise stay on screen like a ghost.
+        setMegaOpen(false);
       }
       lastScrollYRef.current = scrollY;
     };
