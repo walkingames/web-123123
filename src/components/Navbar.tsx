@@ -26,6 +26,7 @@ export default function Navbar() {
   const [hidden, setHidden] = useState(false);
   const lastScrollYRef = useRef(0);
   const programmaticScrollUntilRef = useRef(0);
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -44,13 +45,19 @@ export default function Navbar() {
           current = id;
         }
       }
+      // The final section can be shorter than the viewport, so its top may
+      // never cross the fixed-header marker even after reaching the page end.
+      if (scrollY > 0 && scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+        current = NAV_ITEMS[NAV_ITEMS.length - 1].href.slice(1);
+      }
       setActiveSection(current);
 
       // Smart hide/show — keep the site visible at the top and while a nav
       // click is still settling; hide only on sustained downward scroll
       // (slow reading scrolls stay visible), reveal on any upward scroll.
       const settling = Date.now() < programmaticScrollUntilRef.current;
-      if (settling || scrollY <= 24) {
+      const navigationHasFocus = document.activeElement?.closest(".site-header") !== null;
+      if (settling || scrollY <= 24 || navigationHasFocus) {
         setHidden(false);
       } else if (scrollY < lastScrollYRef.current) {
         setHidden(false);
@@ -69,10 +76,15 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const closeMenu = useCallback((restoreFocus = false) => {
+    setMenuOpen(false);
+    if (restoreFocus) {
+      requestAnimationFrame(() => menuToggleRef.current?.focus());
+    }
+  }, []);
 
   const navigateTo = useCallback((event: MouseEvent<HTMLAnchorElement>, href: string) => {
-    event.preventDefault();
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     const target = document.getElementById(href.slice(1));
     if (!target) return;
 
@@ -81,24 +93,26 @@ export default function Navbar() {
     programmaticScrollUntilRef.current = Date.now() + 1200;
     setHidden(false);
 
-    const top = target.getBoundingClientRect().top + window.scrollY - 92;
-    window.scrollTo({ top, behavior: "smooth" });
-    window.history.replaceState(null, "", href);
+    // SectionTransition owns relocation after the curtain fully covers the
+    // viewport. Leave this event uncancelled so its document listener runs.
     setActiveSection(href.slice(1));
     setMegaOpen(false);
     closeMenu();
   }, [closeMenu]);
 
   useEffect(() => {
-    if (!menuOpen) return;
+    if (!menuOpen && !megaOpen) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeMenu();
+      if (event.key === "Escape") {
+        setMegaOpen(false);
+        if (menuOpen) closeMenu(true);
+      }
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [closeMenu, menuOpen]);
+  }, [closeMenu, menuOpen, megaOpen]);
 
   return (
     <>
@@ -106,6 +120,7 @@ export default function Navbar() {
         className={`site-header ${scrolled ? "site-header--scrolled" : ""} ${
           hidden && !menuOpen ? "site-header--hidden" : ""
         }`}
+        onFocusCapture={() => setHidden(false)}
       >
         <nav className="site-nav shell" aria-label="Main navigation">
           <a href="#about" className="wordmark" aria-label="WalkinGames - Back to top">
@@ -120,6 +135,11 @@ export default function Navbar() {
                 className={item.mega ? "nav-links__item--mega" : undefined}
                 onMouseEnter={() => { if (item.mega) setMegaOpen(true); }}
                 onMouseLeave={() => { if (item.mega) setMegaOpen(false); }}
+                onBlur={(event) => {
+                  if (item.mega && !event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                    setMegaOpen(false);
+                  }
+                }}
               >
                 <a
                   href={item.href}
@@ -130,23 +150,16 @@ export default function Navbar() {
                 >
                   {item.label}
                 </a>
-                {item.mega && megaOpen && item.label === "Games" && (
+                {item.mega && item.label === "Games" && (
                   <div
-                    className="nav-mega"
-                    role="menu"
-                    aria-label="Games"
-                    onBlur={(e) => {
-                      if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
-                        setMegaOpen(false);
-                      }
-                    }}
+                    className={`nav-mega ${megaOpen ? "nav-mega--open" : ""}`}
+                    aria-hidden={!megaOpen}
                   >
                     {item.mega.map((game) => (
                       <a
                         key={game.title}
                         href={game.href}
                         className="nav-mega__card"
-                        role="menuitem"
                         onClick={(e) => navigateTo(e, game.href)}
                       >
                         <span className="nav-mega__thumb">
@@ -173,6 +186,7 @@ export default function Navbar() {
             <button
               type="button"
               className="menu-toggle"
+              ref={menuToggleRef}
               onClick={() => setMenuOpen((open) => !open)}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
@@ -188,6 +202,7 @@ export default function Navbar() {
           id="mobile-navigation"
           className={`mobile-menu ${menuOpen ? "mobile-menu--open" : ""}`}
           aria-hidden={!menuOpen}
+          inert={!menuOpen ? true : undefined}
         >
           <ul>
             {NAV_ITEMS.map((item, index) => (

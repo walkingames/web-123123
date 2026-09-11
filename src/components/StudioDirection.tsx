@@ -1,11 +1,4 @@
-"use client";
-
-import { useRef, useState, useEffect } from "react";
-import { useReducedMotion } from "motion/react";
-import dynamic from "next/dynamic";
 import Reveal from "./motion/Reveal";
-
-const Dither = dynamic(() => import("./Dither"), { ssr: false });
 
 const PHASES = [
   {
@@ -47,45 +40,12 @@ const PHASES = [
 ] as const;
 
 export default function StudioDirection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [inView, setInView] = useState(false);
-  const reduce = useReducedMotion();
-
-  useEffect(() => {
-    if (reduce) return;
-    const el = sectionRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
-      { rootMargin: "200px 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [reduce]);
-
   return (
     <section
-      ref={sectionRef}
       id="direction"
       className="direction"
       aria-labelledby="direction-heading"
     >
-      {inView && !reduce && (
-        <div className="direction__ambient" aria-hidden="true">
-          <Dither
-            waveSpeed={0.03}
-            waveFrequency={2}
-            waveAmplitude={0.15}
-            waveColor={[0.12, 0.22, 0.38]}
-            colorNum={3}
-            pixelSize={3}
-            disableAnimation={false}
-            enableMouseInteraction={false}
-            mouseRadius={0}
-          />
-        </div>
-      )}
-
       <div className="shell">
         <Reveal>
           <div className="direction__header">
@@ -103,15 +63,14 @@ export default function StudioDirection() {
 
         <ol className="roadmap">
           {PHASES.map((phase, phaseIndex) => (
-            <Reveal key={phase.index} delay={phaseIndex * 0.1}>
-              <li className="roadmap__phase">
-                <div className="roadmap__rail" aria-hidden="true">
-                  <span>{phase.index}</span>
-                  <i className={phaseIndex === 0 ? "is-live" : ""} />
-                </div>
-                <div className="roadmap__content">
-                  <p className="roadmap__label">{phase.label}</p>
+            <li key={phase.index} className="roadmap__phase">
+              <details open={phaseIndex === 0}>
+                <summary>
+                  <span className="roadmap__label">{phase.label}</span>
                   <h3>{phase.title}</h3>
+                  <span className="roadmap__toggle" aria-hidden="true" />
+                </summary>
+                <div className="roadmap__content">
                   <p className="roadmap__description">{phase.description}</p>
                   <ul>
                     {phase.items.map((item) => (
@@ -119,8 +78,8 @@ export default function StudioDirection() {
                     ))}
                   </ul>
                 </div>
-              </li>
-            </Reveal>
+              </details>
+            </li>
           ))}
         </ol>
 

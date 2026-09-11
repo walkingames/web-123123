@@ -143,6 +143,7 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
             className="project-card__slide project-card__overview"
             aria-label="Walkin overview"
             aria-hidden={technicalOpen}
+            inert={technicalOpen}
           >
             <div className="project-card__art">
               <div className="project-card__poster">
@@ -150,7 +151,7 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
                   src={project.image}
                   alt={project.imageAlt}
                   fill
-                  sizes="(max-width: 760px) min(82vw, 420px), (max-width: 1100px) 42vw, 520px"
+                  sizes="(max-width: 760px) min(calc(100vw - 90px), 340px), (max-width: 1000px) 34vw, 440px"
                   quality={100}
                   className="project-card__image"
                 />
@@ -185,6 +186,7 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
             className="project-card__slide tech-dossier"
             aria-label="Walkin development system"
             aria-hidden={!technicalOpen}
+            inert={!technicalOpen}
           >
             <header className="tech-dossier__header">
               <div>

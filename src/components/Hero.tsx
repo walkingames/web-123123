@@ -9,8 +9,6 @@ import {
   useTransform,
 } from "motion/react";
 
-import ShinyText from "./ShinyText";
-
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Hero() {
@@ -21,7 +19,6 @@ export default function Hero() {
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
   const contentY = useTransform(scrollYProgress, [0, 1], [0, -40]);
   const imageY = useTransform(scrollYProgress, [0, 1], [0, 80]);
-  const sectionOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.85]);
 
   /* ─── on-load intro (instant when reduced motion) ─── */
   const introTransition = (delay: number, duration: number) => ({
@@ -42,28 +39,8 @@ export default function Hero() {
       id="about"
       className="hero"
       aria-labelledby="hero-heading"
-      style={{ opacity: sectionOpacity }}
     >
-      {/* ─── background image (parallax on wrapper, settle animation on img) ─── */}
-      <motion.div
-        style={{ position: "absolute", inset: 0, zIndex: -3, y: imageY }}
-        aria-hidden="true"
-      >
-        <Image
-          src="/images/walkin-about-hero.png"
-          alt="Walkin gameplay scene with a runner escaping through a city street"
-          fill
-          preload
-          unoptimized
-          sizes="100vw"
-          className="hero__image"
-        />
-      </motion.div>
-
-      <div className="hero__shade" aria-hidden="true" />
-
-      {/* ─── content (parallax + staggered entrance) ─── */}
-      <motion.div className="hero__content shell" style={{ y: contentY }}>
+      <motion.div className="hero__content shell" style={{ y: prefersReducedMotion ? 0 : contentY }}>
         <motion.div className="hero__eyebrow" {...stagger(0)}>
           <span className="signal-dot signal-dot--hero" aria-hidden="true" />
           Independent game studio · Mobile &amp; PC
@@ -73,22 +50,27 @@ export default function Hero() {
           <motion.span {...stagger(1)} style={{ display: "block" }}>
             Games built
           </motion.span>
-          <ShinyText
-            text="to keep moving."
-            speed={3.8}
-            delay={0}
-            color="#ffffff"
-            shineColor="#ffffff"
-            spread={120}
-            direction="left"
-            yoyo={false}
-            pauseOnHover={false}
-            outlined
-            strokeWidth={1}
-            className="hero__title-shine"
-          />
+          <motion.span className="hero__outline" {...stagger(2)}>to keep <em>moving.</em></motion.span>
         </h1>
-
+      </motion.div>
+      <div className="hero__cinema shell">
+        <motion.div className="hero__image-wrap" style={{ y: prefersReducedMotion ? 0 : imageY }}>
+          <Image
+            src="/images/walkin-about-hero.png"
+            alt="Walkin gameplay scene with a runner escaping through a city street"
+            fill
+            preload
+            unoptimized
+            sizes="100vw"
+            className="hero__image"
+          />
+        </motion.div>
+        <div className="hero__shade" aria-hidden="true" />
+        <a href="#project-walkin" className="hero__featured">
+          <span className="signal-dot signal-dot--hero" aria-hidden="true" />
+          In development <span className="hero__featured-name">Walkin</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M6 18 18 6M6 6h12v12" /></svg>
+        </a>
         <motion.div className="hero__footer" {...stagger(3)}>
           <p className="hero__intro">
             WalkinGames creates focused, replayable experiences with strong
@@ -125,11 +107,6 @@ export default function Hero() {
             </motion.a>
           </div>
         </motion.div>
-      </motion.div>
-
-      <div className="hero__index" aria-hidden="true">
-        <span>WG / 001</span>
-        <span>Scroll to discover</span>
       </div>
     </motion.section>
   );

@@ -55,30 +55,32 @@ const PROJECTS: Project[] = [
 export default function ProjectShowcase() {
   return (
     <section className="games-section">
-      <div id="studio" className="studio-intro shell" aria-labelledby="studio-heading">
-        <Reveal>
-          <p className="section-kicker">The studio / 2026</p>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <div className="studio-intro__grid">
-            <h2 id="studio-heading">
-              Small team.<br />Clear intent.<br /><span>Games with a pulse.</span>
-            </h2>
-            <div className="studio-intro__copy">
-              <p>
-                WalkinGames is an independent studio creating games for mobile
-                and PC. We start with a strong playable idea, then build every
-                system around how it should feel in the player&apos;s hands.
-              </p>
-              <p>
-                Our work moves between immediate arcade energy and darker,
-                atmospheric worlds, always with clarity, iteration, and long-term
-                craft at the center.
-              </p>
+      <section id="studio" className="studio-intro" aria-labelledby="studio-heading">
+        <div className="shell">
+          <Reveal>
+            <p className="section-kicker">The studio / 2026</p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <div className="studio-intro__grid">
+              <h2 id="studio-heading">
+                Small team.<br />Clear intent.<br /><span>Games with a pulse.</span>
+              </h2>
+              <div className="studio-intro__copy">
+                <p>
+                  WalkinGames is an independent studio creating games for mobile
+                  and PC. We start with a strong playable idea, then build every
+                  system around how it should feel in the player&apos;s hands.
+                </p>
+                <p>
+                  Our work moves between immediate arcade energy and darker,
+                  atmospheric worlds, always with clarity, iteration, and long-term
+                  craft at the center.
+                </p>
+              </div>
             </div>
-          </div>
-        </Reveal>
-      </div>
+          </Reveal>
+        </div>
+      </section>
 
       <div id="games" className="projects" aria-labelledby="games-heading">
         <header className="projects__header shell">
@@ -112,7 +114,7 @@ export default function ProjectShowcase() {
                         src={project.image}
                         alt={project.imageAlt}
                         fill
-                        sizes="(max-width: 760px) min(82vw, 420px), (max-width: 1100px) 42vw, 520px"
+                        sizes="(max-width: 760px) min(calc(100vw - 90px), 340px), (max-width: 1000px) 34vw, 440px"
                         quality={100}
                         className="project-card__image"
                       />
