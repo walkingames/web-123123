@@ -227,16 +227,17 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
                   <span>AI-assisted workflow</span>
                   <span>Human directed</span>
                 </div>
-                <h4>Hermes Agent <span>×</span> Unity MCP</h4>
+                <h4>AI tools <span>×</span> Unity toolchain</h4>
                 <p>
-                  Architecture inspection, editor automation and focused verification run
-                  through Coplay Unity MCP. Design decisions, play feel and final review stay
-                  human-owned.
+                  Hermes Agent orchestrates a skill-driven workflow across Claude Code,
+                  Codex, Unity MCP, and Unity&apos;s official CLI tools. We use them in parallel
+                  for architecture inspection, editor automation, implementation, and focused
+                  verification while design decisions, play feel, and final review stay human-owned.
                 </p>
                 <ul>
-                  <li>Scene and prefab inspection</li>
-                  <li>Editor tooling and repeatable setup</li>
-                  <li>Regression checks and performance analysis</li>
+                  <li>Specialized skills for repeatable workflows</li>
+                  <li>Claude Code + Codex for parallel implementation</li>
+                  <li>Unity MCP + official Unity CLI for editor and build operations</li>
                 </ul>
               </aside>
             </div>
