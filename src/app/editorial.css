@@ -261,6 +261,10 @@ h1, h2, h3, h4 { text-wrap: balance; }
 }
 @media (max-width: 760px) {
   :root { --gutter: 20px; }
+  /* Section copy must never depend on IntersectionObserver on mobile.
+     Keep the hero/navbar motion, but guarantee readable content on browsers
+     that leave motion/react's initial inline state unresolved. */
+  [data-reveal="true"] { opacity: 1 !important; transform: none !important; }
   .site-header { top: 12px; height: 60px; }
   .site-nav { display: flex; justify-content: space-between; padding-inline: 12px; }
   .nav-links, .nav-contact { display: none; }
