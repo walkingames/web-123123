@@ -112,6 +112,10 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
           <span className="signal-dot signal-dot--dossier" aria-hidden="true" />
           Walkin / Project dossier
         </p>
+        <Link href="/walkin/development-journey" className="button project-card__journey-link">
+          <span>Explore the development journey</span>
+          <Image src="/images/running-person.svg" alt="" width={24} height={24} aria-hidden="true" />
+        </Link>
         <div role="group" aria-label="Choose Walkin card view">
           <button
             type="button"
@@ -170,9 +174,6 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
               <div className="project-card__story">
                 <p className="project-card__summary">{project.summary}</p>
                 <p className="project-card__description">{project.description}</p>
-                <Link href="/walkin/development-journey" className="text-link" style={{ marginTop: 24 }}>
-                  Explore the development journey <span aria-hidden="true">↗</span>
-                </Link>
               </div>
               <dl className="project-card__details">
                 {project.details.map((detail) => (
