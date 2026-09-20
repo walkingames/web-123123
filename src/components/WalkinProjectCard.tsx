@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { TouchEvent } from "react";
 
@@ -169,6 +170,9 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
               <div className="project-card__story">
                 <p className="project-card__summary">{project.summary}</p>
                 <p className="project-card__description">{project.description}</p>
+                <Link href="/walkin/development-journey" className="text-link" style={{ marginTop: 24 }}>
+                  Explore the development journey <span aria-hidden="true">↗</span>
+                </Link>
               </div>
               <dl className="project-card__details">
                 {project.details.map((detail) => (
