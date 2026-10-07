@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { schabo } from "@/fonts";
+import { brand, ogImageAlt, siteDescription, siteName, siteTagline, siteTitle, siteUrl } from "@/lib/site";
 import "./editorial.css";
 
 const geistSans = Geist({
@@ -16,27 +17,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://walkingames.com"),
-  title: "WalkinGames | Independent Game Studio",
-  description:
-    "WalkinGames is an independent game studio creating focused, replayable experiences for mobile and PC. Discover Walkin and Duskfall Requiem.",
+  metadataBase: new URL(siteUrl),
+  applicationName: siteName,
+  title: siteTitle,
+  description: siteDescription,
   keywords: ["WalkinGames", "indie games", "game studio", "Walkin", "Duskfall Requiem", "gaming"],
-  authors: [{ name: "WalkinGames" }],
-  creator: "WalkinGames",
+  authors: [{ name: siteName }],
+  creator: siteName,
+  category: "games",
   openGraph: {
-    title: "WalkinGames | Independent Game Studio",
-    description: "Focused, replayable games with atmosphere and a pulse.",
-    url: "https://walkingames.com",
-    siteName: "WalkinGames",
+    title: siteTitle,
+    description: siteTagline,
+    url: siteUrl,
+    siteName,
     locale: "en_US",
     type: "website",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: ogImageAlt }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WalkinGames | Independent Game Studio",
-    description: "Focused, replayable games with atmosphere and a pulse.",
-    images: ["/opengraph-image"],
+    title: siteTitle,
+    description: siteTagline,
+    images: [{ url: "/opengraph-image", alt: ogImageAlt }],
   },
   robots: { index: true, follow: true },
   icons: { icon: "/favicon.ico" },
@@ -45,7 +47,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#000000",
+  themeColor: brand.background,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

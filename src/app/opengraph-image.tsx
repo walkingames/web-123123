@@ -1,58 +1,67 @@
 import { ImageResponse } from "next/og";
-import { readFileSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { brand, ogImageAlt, siteTagline } from "@/lib/site";
 
-export const alt = "WalkinGames | Indie Game Studio";
+export const alt = ogImageAlt;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OGImage() {
-  const buf = readFileSync(join(process.cwd(), "public", "images", "walkin-about-hero.png"));
-  const src = `data:image/png;base64,${buf.toString("base64")}`;
+export default async function OGImage() {
+  const [font, bg] = await Promise.all([
+    readFile(join(process.cwd(), "src/fonts/SCHABO-Condensed.otf")),
+    readFile(join(process.cwd(), "src/assets/og-icon.png"), "base64"),
+  ]);
+  const src = `data:image/png;base64,${bg}`;
+  const { background, accent, foreground } = brand;
 
   return new ImageResponse(
     (
       <div
         style={{
-          width: 1200,
-          height: 630,
+          width: "100%",
+          height: "100%",
           display: "flex",
           position: "relative",
           flexDirection: "column",
-          alignItems: "flex-start",
+          alignItems: "stretch",
           justifyContent: "space-between",
-          padding: "54px 64px",
+          padding: "48px 62px",
           overflow: "hidden",
-          backgroundColor: "#e9e9e1",
-          color: "#000000",
+          backgroundColor: background,
+          color: foreground,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", fontSize: 22, fontWeight: 700, letterSpacing: "-0.05em" }}>
-          <span style={{ color: "#ecff00", marginRight: 12 }}>W/</span>
-          WalkinGames
-        </div>
+        <div style={{ position: "absolute", inset: 0, display: "flex", background: `radial-gradient(circle at 80% 50%, ${accent}30 0%, transparent 52%)` }} />
         <img
           src={src}
           alt=""
-          width={760}
-          height={428}
-          style={{ position: "absolute", right: 0, top: 0, width: 760, height: 630, objectFit: "cover", objectPosition: "65% center", opacity: 0.82 }}
+          width={420}
+          height={420}
+          style={{ position: "absolute", right: 90, top: 92, width: 420, height: 420, borderRadius: 86, boxShadow: "0 30px 80px rgba(0,0,0,0.6)" }}
         />
-        <div style={{ position: "absolute", inset: 0, display: "flex", background: "linear-gradient(90deg, #e9e9e1 0%, #e9e9e1e8 32%, #e9e9e100 72%)" }} />
-        <div style={{ position: "relative", display: "flex", flexDirection: "column", width: 720 }}>
-          <div style={{ display: "flex", fontSize: 14, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 22 }}>
-            Independent game studio · Mobile &amp; PC
+        <div style={{ position: "relative", display: "flex", alignItems: "center", fontSize: 28, letterSpacing: "0.03em" }}>
+          <span style={{ fontSize: 64 }}>WalkinGames</span>
+        </div>
+        <div style={{ position: "absolute", left: 690, top: 68, width: 420, display: "flex", justifyContent: "center", color: accent, fontSize: 22, letterSpacing: "0.14em", paddingLeft: "0.14em" }}>
+          INDEPENDENT GAME STUDIO
+        </div>
+        <div style={{ position: "relative", display: "flex", flexDirection: "column", width: 760 }}>
+          <div style={{ display: "flex", fontSize: 24, letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: 22, color: accent }}>
+            Mobile &amp; PC
           </div>
-          <div style={{ display: "flex", flexDirection: "column", fontSize: 108, lineHeight: 0.84, fontWeight: 400, letterSpacing: "-0.02em", textTransform: "uppercase", fontFamily: "Arial Narrow, Arial, sans-serif" }}>
-            <span>Let&apos;s make the</span>
-            <span style={{ color: "#000000", background: "#ecff00", padding: "7px 14px 0", width: "auto", transform: "rotate(-3deg)" }}>next world.</span>
+          <div style={{ display: "flex", flexDirection: "column", fontSize: 118, lineHeight: 0.82, fontWeight: 400, letterSpacing: "-0.02em", textTransform: "uppercase", fontFamily: "Schabo" }}>
+            <span>Games built</span>
+            <span>to keep</span>
+            <span style={{ color: accent }}>moving.</span>
           </div>
         </div>
-        <div style={{ position: "relative", display: "flex", fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-          Focused, replayable games with atmosphere and a pulse.
+        <div style={{ position: "relative", display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderTop: `1px solid ${foreground}66`, paddingTop: 18, fontSize: 26, letterSpacing: "0.02em" }}>
+          <span>{siteTagline}</span>
+          <span style={{ color: accent, fontSize: 32 }}>↗</span>
         </div>
       </div>
     ),
-    { width: 1200, height: 630 }
+    { ...size, fonts: [{ name: "Schabo", data: font, weight: 400, style: "normal" }] },
   );
 }

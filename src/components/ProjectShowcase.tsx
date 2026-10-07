@@ -24,7 +24,7 @@ const PROJECTS: Project[] = [
     summary: "Run. Adapt. Survive the city.",
     description:
       "A mobile action runner where every street changes the fight. Build your arsenal mid-run, read evolving enemy patterns, and choose the right weapon before the horde closes in.",
-    image: "/images/walkinSayko.png",
+    image: "/images/walkin-wallpaper.png",
     imageAlt: "Walkin key art featuring a masked survivor beneath the Walkin title",
     details: [
       { label: "Genre", value: "Action · Infinite Runner" },

@@ -74,6 +74,9 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
   const [viewportHeight, setViewportHeight] = useState<number>();
   const overviewRef = useRef<HTMLElement>(null);
   const technicalRef = useRef<HTMLElement>(null);
+  const posterRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
   useEffect(() => {
     const activeSlide = technicalOpen ? technicalRef.current : overviewRef.current;
@@ -86,6 +89,34 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
     observer.observe(activeSlide);
     return () => observer.disconnect();
   }, [technicalOpen]);
+
+  useEffect(() => {
+    const poster = posterRef.current;
+    const video = videoRef.current;
+    if (!poster || !video) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          timer = setTimeout(() => {
+            video.play().then(() => setVideoPlaying(true)).catch(() => {});
+          }, 2000);
+        } else {
+          clearTimeout(timer);
+          video.pause();
+          setVideoPlaying(false);
+        }
+      },
+      { threshold: 0.5 },
+    );
+    observer.observe(poster);
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, []);
 
   const onTouchStart = (event: TouchEvent<HTMLDivElement>) => {
     setTouchStartX(event.touches[0]?.clientX ?? null);
@@ -114,7 +145,25 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
         </p>
         <Link href="/walkin/development-journey" className="button project-card__journey-link">
           <span>Explore the development journey</span>
-          <Image src="/images/running-person.svg" alt="" width={24} height={24} aria-hidden="true" />
+          <svg
+            className="project-card__runner"
+            viewBox="0 0 24 24"
+            width="22"
+            height="22"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinejoin="miter"
+            strokeLinecap="butt"
+            aria-hidden="true"
+          >
+            <rect x="14.5" y="1.5" width="4" height="4" fill="currentColor" stroke="none" />
+            <polyline points="14,7.5 11.5,14" />
+            <polyline points="13.5,9 18,11 21,8.5" />
+            <polyline points="13,9.5 8.5,9.5 6,13" />
+            <polyline points="11.5,14 16,16 15,21.5" />
+            <polyline points="11.5,14 8,18.5 3,18" />
+          </svg>
         </Link>
         <div role="group" aria-label="Choose Walkin card view">
           <button
@@ -151,7 +200,7 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
             inert={technicalOpen}
           >
             <div className="project-card__art">
-              <div className="project-card__poster">
+              <div className={`project-card__poster${videoPlaying ? " has-video" : ""}`} ref={posterRef}>
                 <Image
                   src={project.image}
                   alt={project.imageAlt}
@@ -159,6 +208,17 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
                   sizes="(max-width: 760px) min(calc(100vw - 90px), 340px), (max-width: 1000px) 34vw, 440px"
                   quality={100}
                   className="project-card__image"
+                />
+                <video
+                  ref={videoRef}
+                  className={`project-card__video${videoPlaying ? " is-playing" : ""}`}
+                  src="/videos/walkin-promo.mp4"
+                  muted
+                  loop
+                  playsInline
+                  preload="none"
+                  aria-hidden="true"
+                  tabIndex={-1}
                 />
               </div>
             </div>

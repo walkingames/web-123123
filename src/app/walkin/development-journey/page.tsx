@@ -4,6 +4,7 @@ import Link from "next/link";
 import JourneyMedia from "@/components/journey/JourneyMedia";
 import TimelineMotion from "@/components/journey/TimelineMotion";
 import { journeyMedia, milestones } from "@/components/journey/journey-data";
+import { journeyOgImageAlt, lastModified, siteName, siteUrl } from "@/lib/site";
 import "./journey.css";
 
 const title = "Walkin — From the First Build to Today";
@@ -13,13 +14,40 @@ const route = "/walkin/development-journey";
 export const metadata: Metadata = {
   title, description,
   alternates: { canonical: route },
-  openGraph: { title, description, url: route, type: "article", images: [{ url: `${route}/opengraph-image`, width: 1200, height: 630, alt: "Walkin development journey — March to September 2026" }] },
+  openGraph: { title, description, url: route, type: "article", images: [{ url: `${route}/opengraph-image`, width: 1200, height: 630, alt: journeyOgImageAlt }] },
   twitter: { card: "summary_large_image", title, description, images: [`${route}/opengraph-image`] },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      headline: title,
+      description,
+      url: `${siteUrl}${route}`,
+      image: `${siteUrl}${route}/opengraph-image`,
+      dateModified: lastModified.journey,
+      author: { "@type": "Organization", name: siteName, url: siteUrl },
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: siteName, item: siteUrl },
+        { "@type": "ListItem", position: 2, name: "Walkin development journey", item: `${siteUrl}${route}` },
+      ],
+    },
+  ],
 };
 
 export default function DevelopmentJourneyPage() {
   return (
     <div className="journey-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
       <header className="journey-nav shell">
         <Link href="/" className="wordmark" aria-label="WalkinGames home"><span className="wordmark__mark" aria-hidden="true">W</span><span>WalkinGames</span></Link>
         <span className="journey-nav__label">Field notes / 001</span>
@@ -35,7 +63,7 @@ export default function DevelopmentJourneyPage() {
               <a href="#the-journey" className="button button--solid">Follow the journey <span aria-hidden="true">↓</span></a>
             </div>
             <figure className="journey-hero__visual">
-              <div className="journey-hero__image"><Image src="/images/walkinSayko.png" alt="Walkin survivor key art" fill priority sizes="(max-width: 760px) 85vw, 42vw" /></div>
+              <div className="journey-hero__image"><Image src="/images/walkin-icon.png" alt="Walkin game icon" fill priority sizes="(max-width: 760px) 85vw, 42vw" /></div>
               <figcaption><span>Brooklyn, New York</span><span>Work in progress ↗</span></figcaption>
             </figure>
           </div>

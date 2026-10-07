@@ -10,7 +10,7 @@ const NAV_ITEMS: { label: string; href: string; mega?: { title: string; image: s
     label: "Games",
     href: "#games",
     mega: [
-      { title: "Walkin", image: "/images/walkinSayko.png", imageAlt: "Walkin key art", href: "#project-walkin" },
+      { title: "Walkin", image: "/images/walkin-wallpaper.png", imageAlt: "Walkin key art", href: "#project-walkin" },
       { title: "Duskfall Requiem", image: "/images/DuskfallRequiem.png", imageAlt: "Duskfall Requiem key art", href: "#project-duskfall-requiem" },
     ],
   },

@@ -1726,8 +1726,8 @@ button {
 }
 
 .project-card--duskfall .project-card__poster {
-  width: min(100%, 500px);
-  aspect-ratio: 1054 / 1492;
+  width: min(100%, 470px);
+  aspect-ratio: 9 / 16;
 }
 
 .project-card__image {
