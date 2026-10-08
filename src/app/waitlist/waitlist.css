@@ -1,0 +1,103 @@
+.waitlist-page { overflow: clip; background: var(--ink); }
+.waitlist-page .shell { max-width: 1360px; }
+.waitlist-nav { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 104px; border-bottom: 1px solid var(--line); }
+.waitlist-nav .wordmark { gap: 10px; }
+.waitlist-nav__label, .waitlist-hero__eyebrow > span, .waitlist-hero__share, .waitlist-page figcaption, .waitlist-perk > p, .waitlist-note { font: 10px/1.7 var(--font-mono); color: var(--muted); }
+.waitlist-nav__label { text-transform: uppercase; }
+
+.waitlist-hero { padding-top: 40px; }
+.waitlist-hero__eyebrow { display: flex; justify-content: space-between; gap: 24px; }
+.waitlist-hero__eyebrow .section-kicker { color: var(--accent); }
+.waitlist-hero__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 5%; align-items: center; padding: 48px 0 52px; }
+.waitlist-hero h1 { margin: 0; font: 400 clamp(92px, 11.5vw, 168px)/.84 var(--font-display); text-transform: uppercase; }
+.waitlist-hero h1 > span { display: block; }
+.waitlist-hero h1 .waitlist-hero__accent { display: inline-block; margin-left: 14%; color: var(--ink); background: var(--accent); padding: .04em .12em 0; transform: rotate(-2deg); }
+.waitlist-hero__copy > p { max-width: 400px; margin: 30px 0 0; color: var(--muted); font-size: 15px; line-height: 1.75; }
+.waitlist-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.waitlist-hero__actions .button, .waitlist-hero__actions .text-link { min-height: 48px; }
+.waitlist-hero__share { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 22px 0 32px; border-top: 1px solid var(--line); text-transform: uppercase; }
+.waitlist-hero__share a { color: var(--white); border-bottom: 1px solid var(--line); }
+.waitlist-hero__share a:hover { color: var(--accent); border-color: var(--accent); }
+.waitlist-page figure { margin: 0; min-width: 0; }
+.waitlist-poster { position: relative; background: radial-gradient(ellipse at center, #1c2133, #050608 65%); border: 1px solid var(--line); border-radius: 6px; }
+.waitlist-poster > div { position: relative; width: 100%; aspect-ratio: 1 / 1; }
+.waitlist-poster img { object-fit: contain; padding: 8%; }
+.waitlist-poster figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 14px 18px; border-top: 1px solid var(--line); text-transform: uppercase; letter-spacing: .06em; font-size: 9px; }
+
+.waitlist-form { padding: clamp(24px, 3vw, 38px); background: #0a0e14; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 30px 80px #0009; }
+.waitlist-form__head .section-kicker { color: var(--accent); margin-bottom: 20px; }
+.waitlist-form__title { margin: 0; font: 400 clamp(40px, 3.6vw, 58px)/1 var(--font-display); text-transform: uppercase; }
+.waitlist-form__note { margin: 16px 0 0; max-width: 380px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.waitlist-form__google { display: flex; justify-content: flex-start; margin-top: 26px; min-height: 44px; }
+.waitlist-form__rule { display: flex; align-items: center; gap: 14px; margin: 22px 0; color: var(--muted); font: 9px/1 var(--font-mono); text-transform: uppercase; letter-spacing: .1em; }
+.waitlist-form__rule::before, .waitlist-form__rule::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+.waitlist-form__fields { margin-top: 26px; }
+.waitlist-form__google + .waitlist-form__rule + .waitlist-form__fields { margin-top: 0; }
+.waitlist-form__label { display: block; margin-bottom: 10px; color: var(--muted); font: 9px/1.5 var(--font-mono); text-transform: uppercase; letter-spacing: .1em; }
+.waitlist-form__row { display: flex; gap: 10px; }
+.waitlist-form__row input[type="email"] { flex: 1 1 auto; min-width: 0; min-height: 52px; padding: 0 18px; border: 1px solid var(--line); border-radius: 6px; background: #00000059; color: var(--white); font: inherit; font-size: 14px; transition: border-color .25s; }
+.waitlist-form__row input[type="email"]::placeholder { color: #ffffff59; }
+.waitlist-form__row input[type="email"]:focus { outline: none; border-color: var(--accent); }
+.waitlist-form__row .button { flex: 0 0 auto; }
+.waitlist-form__row .button:disabled { opacity: .6; cursor: progress; }
+.waitlist-form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.waitlist-form__status { margin: 14px 0 0; color: var(--muted); font: 10px/1.6 var(--font-mono); }
+.waitlist-form__status:empty { margin: 0; }
+
+.waitlist-form--joined { text-align: center; }
+.waitlist-form__check { display: grid; place-items: center; width: 62px; height: 62px; margin: 0 auto 26px; border-radius: 50%; background: var(--accent); color: var(--ink); }
+.waitlist-form__check svg { width: 28px; height: 28px; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.waitlist-form--joined .waitlist-form__note { margin-inline: auto; }
+.waitlist-form__reset { margin-top: 26px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--muted); font: 10px/1.5 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; transition: color .25s, border-color .25s; }
+.waitlist-form__reset:hover { color: var(--accent); border-color: var(--accent); }
+
+.waitlist-perks { padding-block: var(--section-space); background: var(--paper); color: var(--ink); border-radius: 32px 32px 0 0; }
+.waitlist-perks__header { display: grid; grid-template-columns: 1.2fr .8fr; gap: 8%; align-items: center; }
+.waitlist-perks__header h2 { margin: 28px 0 0; font: 400 clamp(60px, 7vw, 104px)/.94 var(--font-display); text-transform: uppercase; }
+.waitlist-perks__header h2 span { color: var(--ink); background: var(--accent); padding: .04em .1em 0; transform: rotate(-2deg); }
+.waitlist-perks .waitlist-poster { border-color: var(--line-paper); background: radial-gradient(ellipse at center, #2a2f22, #0c0d0a 68%); }
+.waitlist-perks .waitlist-poster > div { aspect-ratio: 4 / 3; }
+.waitlist-perks .waitlist-poster figcaption { border-color: var(--line-paper); color: #50534c; }
+.waitlist-perks__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6%; margin-top: 56px; }
+.waitlist-perk { border-top: 1px solid var(--line-paper); padding-top: 22px; }
+.waitlist-perk > span { font: 10px var(--font-mono); color: #6d7168; }
+.waitlist-perk h3 { margin: 22px 0 12px; font: 400 clamp(28px, 2.6vw, 40px)/1.05 var(--font-display); text-transform: uppercase; }
+.waitlist-perk > p { color: #50534c; }
+.waitlist-note { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--line-paper); color: #50534c; }
+
+.waitlist-outro { padding-block: var(--section-space) 80px; }
+.waitlist-outro h2 { margin: 40px 0 26px; font: 400 clamp(66px, 12vw, 190px)/.88 var(--font-display); text-transform: uppercase; }
+.waitlist-outro h2 span { color: var(--accent); }
+.waitlist-outro > p:not(.section-kicker) { max-width: 460px; margin: 0 0 30px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.waitlist-outro .button { min-height: 52px; }
+
+@media (max-width: 1000px) {
+  .waitlist-hero__grid { grid-template-columns: 1fr; gap: 40px; }
+  .waitlist-perks__header { grid-template-columns: 1fr; gap: 32px; }
+  .waitlist-poster { max-width: 420px; }
+  .waitlist-perks__grid { grid-template-columns: 1fr; gap: 34px; }
+}
+@media (max-width: 760px) {
+  .waitlist-nav { min-height: 88px; gap: 8px; }
+  .waitlist-nav__label { display: none; }
+  .waitlist-nav .wordmark { font-size: 12px; gap: 4px; }
+  .waitlist-nav .text-link { padding-inline: 12px; gap: 12px; font-size: 10px; }
+  .waitlist-hero { padding-top: 26px; }
+  .waitlist-hero__eyebrow { flex-wrap: wrap; gap: 12px; }
+  .waitlist-hero__eyebrow .section-kicker { font-size: 8px; }
+  .waitlist-hero__grid { gap: 34px; padding-top: 34px; }
+  .waitlist-hero h1 { font-size: clamp(74px, 21vw, 130px); }
+  .waitlist-hero__copy > p { font-size: 13px; }
+  .waitlist-hero__actions .button, .waitlist-hero__actions .text-link { flex: 1 1 100%; }
+  .waitlist-hero__share { flex-direction: column; align-items: flex-start; gap: 10px; font-size: 8px; }
+  .waitlist-form { padding: 24px 18px; }
+  .waitlist-form__row { flex-direction: column; }
+  .waitlist-form__row .button { justify-content: space-between; width: 100%; }
+  .waitlist-perks { border-radius: 20px 20px 0 0; }
+  .waitlist-outro h2 { font-size: clamp(58px, 16vw, 96px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .waitlist-hero__copy { animation: waitlist-intro .8s var(--ease); }
+  .waitlist-form { animation: waitlist-intro .8s .1s var(--ease) both; }
+  @keyframes waitlist-intro { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+}

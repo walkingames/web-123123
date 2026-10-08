@@ -13,9 +13,11 @@ export const brand = {
 
 export const ogImageAlt = "WalkinGames — independent game studio";
 export const journeyOgImageAlt = "Walkin development journey — March to September 2026";
+export const waitlistOgImageAlt = "Join the Walkin waitlist — WalkinGames";
 
 /** Update these when the page content meaningfully changes. */
 export const lastModified = {
   home: "2026-09-30",
   journey: "2026-09-30",
+  waitlist: "2026-10-09",
 } as const;

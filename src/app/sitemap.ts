@@ -17,5 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
       images: [`${siteUrl}/images/walkin-icon.png`],
     },
+    {
+      url: `${siteUrl}/waitlist`,
+      lastModified: lastModified.waitlist,
+      changeFrequency: "weekly",
+      priority: 0.9,
+      images: [`${siteUrl}/images/walkin-icon.png`],
+    },
   ];
 }
