@@ -28,7 +28,8 @@
 .waitlist-form__head .section-kicker { color: var(--accent); margin-bottom: 20px; }
 .waitlist-form__title { margin: 0; font: 400 clamp(40px, 3.6vw, 58px)/1 var(--font-display); text-transform: uppercase; }
 .waitlist-form__note { margin: 16px 0 0; max-width: 380px; color: var(--muted); font-size: 13px; line-height: 1.7; }
-.waitlist-form__google { display: flex; justify-content: flex-start; margin-top: 26px; min-height: 44px; }
+.waitlist-form__google { display: flex; justify-content: flex-start; margin-top: 26px; }
+.waitlist-form__google:empty { margin-top: 0; }
 .waitlist-form__rule { display: flex; align-items: center; gap: 14px; margin: 22px 0; color: var(--muted); font: 9px/1 var(--font-mono); text-transform: uppercase; letter-spacing: .1em; }
 .waitlist-form__rule::before, .waitlist-form__rule::after { content: ""; height: 1px; flex: 1; background: var(--line); }
 .waitlist-form__fields { margin-top: 26px; }

@@ -56,6 +56,7 @@ export default function WaitlistForm() {
   const joined = useSyncExternalStore(subscribeToJoined, readJoined, () => NOT_JOINED);
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [googleReady, setGoogleReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const googleMountRef = useRef<HTMLDivElement>(null);
 
@@ -105,6 +106,7 @@ export default function WaitlistForm() {
         text: "continue_with",
         width: Math.max(200, Math.min(mount.offsetWidth, 400)),
       });
+      setGoogleReady(true);
     });
   }, [handleGoogleCredential]);
 
@@ -138,7 +140,9 @@ export default function WaitlistForm() {
         <span className="section-kicker">Waitlist / 001</span>
         <h2 className="waitlist-form__title">Join the waitlist</h2>
         <p className="waitlist-form__note">
-          One click if you already have a Google account, or just type your email.
+          {googleClientId
+            ? "One click if you already have a Google account, or just type your email."
+            : "Leave your email and we will write when there is something worth opening."}
         </p>
       </div>
 
@@ -151,9 +155,11 @@ export default function WaitlistForm() {
             onLoad={renderGoogleButton}
           />
           <div className="waitlist-form__google" ref={googleMountRef} />
-          <div className="waitlist-form__rule" aria-hidden="true">
-            <span>or use your email</span>
-          </div>
+          {googleReady ? (
+            <div className="waitlist-form__rule" aria-hidden="true">
+              <span>or use your email</span>
+            </div>
+          ) : null}
         </>
       ) : null}
 
