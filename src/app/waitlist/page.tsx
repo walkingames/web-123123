@@ -77,40 +77,39 @@ export default function WaitlistPage() {
             <span>Brooklyn, New York</span>
           </div>
 
-          <div className="waitlist-hero__grid">
-            <div className="waitlist-hero__copy">
-              <h1 id="waitlist-title">
-                First<span>in.</span>
-                <span className="waitlist-hero__accent">Walk.</span>
-              </h1>
-              <p>
-                Walkin is in active development. The waitlist is the fastest way in — early
-                access invites, balance surveys, and every build update, sent to one inbox and
-                nothing else.
-              </p>
-              <div className="waitlist-hero__actions">
-                <a href="#waitlist-form" className="button button--solid">
-                  <span>Join the waitlist</span>
-                  <span className="button__icon" aria-hidden="true">
-                    <svg viewBox="0 0 20 20" fill="none">
-                      <path d="m7 5 5 5-5 5" />
-                    </svg>
-                  </span>
-                </a>
-                <Link href="/walkin/development-journey" className="text-link">
-                  <span>How it got here</span>
-                  <span className="text-link__icon" aria-hidden="true">
-                    <svg viewBox="0 0 20 20" fill="none">
-                      <path d="M5 15 15 5M8 5h7v7" />
-                    </svg>
-                  </span>
-                </Link>
-              </div>
-            </div>
+          <div className="waitlist-hero__brand">
+            <Image
+              src="/images/walkin-icon.png"
+              alt="Walkin game icon"
+              width={512}
+              height={512}
+              sizes="(max-width: 760px) 168px, (max-width: 1200px) 240px, 300px"
+              priority
+            />
+          </div>
 
-            <div id="waitlist-form">
-              <WaitlistForm />
-            </div>
+          <h1 id="waitlist-title" className="waitlist-hero__title">
+            First<span className="waitlist-hero__accent">in.</span> Walk.
+          </h1>
+
+          <div className="waitlist-hero__signup" id="waitlist-form">
+            <WaitlistForm />
+          </div>
+
+          <p className="waitlist-hero__lead">
+            Walkin is in active development. The waitlist is the fastest way in — early access
+            invites, balance surveys, and every build update, sent to one inbox and nothing else.
+          </p>
+
+          <div className="waitlist-hero__actions">
+            <Link href="/walkin/development-journey" className="text-link">
+              <span>How it got here</span>
+              <span className="text-link__icon" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none">
+                  <path d="M5 15 15 5M8 5h7v7" />
+                </svg>
+              </span>
+            </Link>
           </div>
 
           <div className="waitlist-hero__share">

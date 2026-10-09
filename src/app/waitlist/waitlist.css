@@ -1,21 +1,22 @@
 .waitlist-page { overflow: clip; background: var(--ink); }
 .waitlist-page .shell { max-width: 1360px; }
-.waitlist-nav { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 104px; border-bottom: 1px solid var(--line); }
+.waitlist-nav { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 76px; border-bottom: 1px solid var(--line); }
 .waitlist-nav .wordmark { gap: 10px; }
 .waitlist-nav__label, .waitlist-hero__eyebrow > span, .waitlist-hero__share, .waitlist-page figcaption, .waitlist-perk > p, .waitlist-note { font: 10px/1.7 var(--font-mono); color: var(--muted); }
 .waitlist-nav__label { text-transform: uppercase; }
 
-.waitlist-hero { padding-top: 40px; }
-.waitlist-hero__eyebrow { display: flex; justify-content: space-between; gap: 24px; }
+.waitlist-hero { padding-top: 24px; text-align: center; }
+.waitlist-hero__eyebrow { display: flex; justify-content: space-between; gap: 24px; text-align: left; }
 .waitlist-hero__eyebrow .section-kicker { color: var(--accent); }
-.waitlist-hero__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 5%; align-items: center; padding: 48px 0 52px; }
-.waitlist-hero h1 { margin: 0; font: 400 clamp(92px, 11.5vw, 168px)/.84 var(--font-display); text-transform: uppercase; }
-.waitlist-hero h1 > span { display: block; }
-.waitlist-hero h1 .waitlist-hero__accent { display: inline-block; margin-left: 14%; color: var(--ink); background: var(--accent); padding: .04em .12em 0; transform: rotate(-2deg); }
-.waitlist-hero__copy > p { max-width: 400px; margin: 30px 0 0; color: var(--muted); font-size: 15px; line-height: 1.75; }
-.waitlist-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.waitlist-hero__brand { width: clamp(120px, 14vw, 200px); margin: clamp(16px, 2vw, 24px) auto 0; }
+.waitlist-hero__brand img { width: 100%; height: auto; }
+.waitlist-hero__title { margin: clamp(14px, 1.8vw, 22px) 0 0; font: 400 clamp(44px, 6.5vw, 88px)/.88 var(--font-display); text-transform: uppercase; }
+.waitlist-hero__title .waitlist-hero__accent { color: var(--ink); background: var(--accent); padding: .04em .12em 0; transform: rotate(-2deg); }
+.waitlist-hero__signup { width: min(100%, 720px); margin: clamp(18px, 2.2vw, 28px) auto 0; }
+.waitlist-hero__lead { max-width: 540px; margin: 24px auto 0; color: var(--muted); font-size: 15px; line-height: 1.75; }
+.waitlist-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 26px; }
 .waitlist-hero__actions .button, .waitlist-hero__actions .text-link { min-height: 48px; }
-.waitlist-hero__share { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 22px 0 32px; border-top: 1px solid var(--line); text-transform: uppercase; }
+.waitlist-hero__share { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 48px; padding: 22px 0 32px; border-top: 1px solid var(--line); text-transform: uppercase; }
 .waitlist-hero__share a { color: var(--white); border-bottom: 1px solid var(--line); }
 .waitlist-hero__share a:hover { color: var(--accent); border-color: var(--accent); }
 .waitlist-page figure { margin: 0; min-width: 0; }
@@ -45,6 +46,15 @@
 .waitlist-form__status { margin: 14px 0 0; color: var(--muted); font: 10px/1.6 var(--font-mono); }
 .waitlist-form__status:empty { margin: 0; }
 
+.waitlist-hero__signup .waitlist-form { padding: clamp(16px, 1.8vw, 22px); }
+.waitlist-hero__signup .waitlist-form__head .section-kicker { display: inline-flex; justify-content: center; margin-bottom: 10px; }
+.waitlist-hero__signup .waitlist-form__title { font-size: clamp(30px, 3vw, 42px); }
+.waitlist-hero__signup .waitlist-form__note { max-width: 640px; margin-inline: auto; margin-top: 10px; font-size: 12px; line-height: 1.6; }
+.waitlist-hero__signup .waitlist-form__google { justify-content: center; margin-top: 16px; }
+.waitlist-hero__signup .waitlist-form__rule { margin: 14px 0; }
+.waitlist-hero__signup .waitlist-form__label { margin-bottom: 6px; text-align: center; }
+.waitlist-hero__signup .waitlist-form__status { margin-top: 10px; text-align: center; }
+
 .waitlist-form--joined { text-align: center; }
 .waitlist-form__check { display: grid; place-items: center; width: 62px; height: 62px; margin: 0 auto 26px; border-radius: 50%; background: var(--accent); color: var(--ink); }
 .waitlist-form__check svg { width: 28px; height: 28px; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
@@ -71,24 +81,24 @@
 .waitlist-outro h2 span { color: var(--accent); }
 .waitlist-outro > p:not(.section-kicker) { max-width: 460px; margin: 0 0 30px; color: var(--muted); font-size: 14px; line-height: 1.8; }
 .waitlist-outro .button { min-height: 52px; }
+.waitlist-outro .waitlist-hero__actions { justify-content: flex-start; }
 
 @media (max-width: 1000px) {
-  .waitlist-hero__grid { grid-template-columns: 1fr; gap: 40px; }
   .waitlist-perks__header { grid-template-columns: 1fr; gap: 32px; }
   .waitlist-poster { max-width: 420px; }
   .waitlist-perks__grid { grid-template-columns: 1fr; gap: 34px; }
 }
 @media (max-width: 760px) {
-  .waitlist-nav { min-height: 88px; gap: 8px; }
+  .waitlist-nav { min-height: 72px; gap: 8px; }
   .waitlist-nav__label { display: none; }
   .waitlist-nav .wordmark { font-size: 12px; gap: 4px; }
   .waitlist-nav .text-link { padding-inline: 12px; gap: 12px; font-size: 10px; }
   .waitlist-hero { padding-top: 26px; }
   .waitlist-hero__eyebrow { flex-wrap: wrap; gap: 12px; }
   .waitlist-hero__eyebrow .section-kicker { font-size: 8px; }
-  .waitlist-hero__grid { gap: 34px; padding-top: 34px; }
-  .waitlist-hero h1 { font-size: clamp(74px, 21vw, 130px); }
-  .waitlist-hero__copy > p { font-size: 13px; }
+  .waitlist-hero__brand { width: 110px; }
+  .waitlist-hero__title { font-size: clamp(40px, 11vw, 64px); }
+  .waitlist-hero__lead { font-size: 13px; }
   .waitlist-hero__actions .button, .waitlist-hero__actions .text-link { flex: 1 1 100%; }
   .waitlist-hero__share { flex-direction: column; align-items: flex-start; gap: 10px; font-size: 8px; }
   .waitlist-form { padding: 24px 18px; }
@@ -98,7 +108,8 @@
   .waitlist-outro h2 { font-size: clamp(58px, 16vw, 96px); }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .waitlist-hero__copy { animation: waitlist-intro .8s var(--ease); }
-  .waitlist-form { animation: waitlist-intro .8s .1s var(--ease) both; }
+  .waitlist-hero__brand { animation: waitlist-intro .8s var(--ease) both; }
+  .waitlist-hero__title { animation: waitlist-intro .8s .06s var(--ease) both; }
+  .waitlist-form { animation: waitlist-intro .8s .14s var(--ease) both; }
   @keyframes waitlist-intro { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
 }
