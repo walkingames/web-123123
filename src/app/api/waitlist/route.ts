@@ -64,22 +64,65 @@ function notificationHtml(email: string, via: "google" | "email", referer: strin
   const escape = (value: string) =>
     value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-  return `<div style="background:#090d12;padding:32px;font-family:Helvetica,Arial,sans-serif;color:#f4f4ed">
-  <div style="max-width:560px;margin:0 auto;border:1px solid #ffffff29;border-radius:8px;overflow:hidden">
-    <div style="background:#ecff00;padding:14px 24px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#000">
+  const display = new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  }).format(new Date());
+
+  const row = (label: string, value: string) =>
+    `<tr>
+      <td style="padding:12px 0;border-top:1px solid #ffffff29;color:#adb8c5;font:11px/1.5 ui-monospace,'SF Mono',Menlo,Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;width:132px;vertical-align:top">${label}</td>
+      <td style="padding:12px 0;border-top:1px solid #ffffff29;color:#f4f4ed;font-size:14px;line-height:1.5;word-break:break-word">${value}</td>
+    </tr>`;
+
+  return `<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Waitlist signup</title></head>
+<body bgcolor="#090d12" style="margin:0;padding:0;background:#090d12;color:#f4f4ed;-webkit-text-size-adjust:100%">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#090d12" style="background:#090d12;color:#f4f4ed">
+<tr><td align="center" style="padding:32px 16px">
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;background:#090d12;color:#f4f4ed;border:1px solid #ffffff29;border-radius:8px;overflow:hidden">
+
+    <tr><td bgcolor="#ecff00" style="background:#ecff00;padding:13px 24px;font:11px/1.4 ui-monospace,'SF Mono',Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:#000">
       New waitlist signup
-    </div>
-    <div style="padding:28px 24px">
-      <p style="margin:0 0 10px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#adb8c5">Walkin / Waitlist</p>
-      <h1 style="margin:0 0 24px;font-size:28px;line-height:1.2">${escape(email)}</h1>
-      <table style="width:100%;border-collapse:collapse;font-size:13px">
-        <tr><td style="padding:10px 0;border-top:1px solid #ffffff29;color:#adb8c5;width:120px">Signed up via</td><td style="padding:10px 0;border-top:1px solid #ffffff29">${via === "google" ? "Google account (one tap)" : "Email form"}</td></tr>
-        <tr><td style="padding:10px 0;border-top:1px solid #ffffff29;color:#adb8c5">Received</td><td style="padding:10px 0;border-top:1px solid #ffffff29">${escape(new Date().toISOString())}</td></tr>
-        <tr><td style="padding:10px 0;border-top:1px solid #ffffff29;color:#adb8c5">Page</td><td style="padding:10px 0;border-top:1px solid #ffffff29;word-break:break-all">${escape(referer)}</td></tr>
+    </td></tr>
+
+    <tr><td style="padding:30px 24px 0">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+        <td style="vertical-align:top">
+          <p style="margin:0 0 14px;color:#ecff00;font:10px/1.5 ui-monospace,'SF Mono',Menlo,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase">Walkin / Waitlist</p>
+          <h1 style="margin:0;font:400 30px/1.1 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;letter-spacing:-.01em;color:#f4f4ed;text-transform:uppercase;word-break:break-word">${escape(email)}</h1>
+        </td>
+        <td align="right" width="96" style="width:96px;vertical-align:top">
+          <img src="https://walkingames.com/images/walkin-icon.png" width="72" alt="Walkin" style="display:block;width:72px;height:auto;border-radius:10px;border:1px solid #ffffff29">
+        </td>
+      </tr></table>
+    </td></tr>
+
+    <tr><td style="padding:26px 24px 0">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        ${row("Signed up via", via === "google" ? "Google account (one tap)" : "Email form")}
+        ${row("Received", `${escape(display)} UTC`)}
+        ${row("Page", escape(referer))}
       </table>
-    </div>
-  </div>
-</div>`;
+    </td></tr>
+
+    <tr><td style="padding:26px 24px 0">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #ffffff29">
+        <tr><td style="padding:18px 0 0;color:#adb8c5;font:10px/1.7 ui-monospace,'SF Mono',Menlo,Consolas,monospace;letter-spacing:.06em">
+          Hit reply on this email to reach ${escape(email)} directly.<br>
+          <span style="color:#ffffff66">walkingames.com/waitlist</span>
+        </td></tr>
+      </table>
+    </td></tr>
+
+  </table>
+</td></tr></table>
+</body></html>`;
 }
 
 async function deliver(email: string, via: "google" | "email", referer: string) {
