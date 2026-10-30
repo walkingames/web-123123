@@ -9,6 +9,7 @@ const DESTINATIONS: Record<string, string> = {
   "project-walkin": "Walkin",
   "project-duskfall-requiem": "Duskfall Requiem",
   direction: "The path ahead",
+  "about-us": "Meet the founders",
   contact: "Next world.",
 };
 

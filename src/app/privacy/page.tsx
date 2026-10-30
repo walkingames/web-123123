@@ -40,6 +40,9 @@ const description =
 export const metadata: Metadata = {
   title,
   description,
+  // Keep the notice public, but out of search results. Crawling must remain
+  // allowed in robots.txt so search engines can discover this directive.
+  robots: { index: false, follow: true },
   alternates: { canonical: route },
   openGraph: {
     title,

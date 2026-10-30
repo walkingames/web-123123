@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ProjectShowcase from "@/components/ProjectShowcase";
 import StudioDirection from "@/components/StudioDirection";
+import AboutUs from "@/components/AboutUs";
 import ContactSection from "@/components/ContactSection";
 import ScrollProgress from "@/components/motion/ScrollProgress";
 import SectionTransition from "@/components/motion/SectionTransition";
@@ -22,6 +23,19 @@ const jsonLd = {
       url: siteUrl,
       logo: `${siteUrl}/icons/icon-512.png`,
       description: siteDescription,
+      founder: [
+        {
+          "@type": "Person",
+          name: "Yusuf Okuducu",
+          url: "https://www.yusufokuducu.com/",
+          sameAs: ["https://www.linkedin.com/in/yusufokuducu/"],
+        },
+        {
+          "@type": "Person",
+          name: "Emrehan Dalaman",
+          sameAs: ["https://www.linkedin.com/in/emrehan-dalaman-1252581b6"],
+        },
+      ],
     },
     {
       "@type": "WebSite",
@@ -48,6 +62,7 @@ export default function Home() {
         <div className="hero-stage"><Hero /></div>
         <ProjectShowcase />
         <StudioDirection />
+        <AboutUs />
         <ContactSection />
       </main>
     </>
