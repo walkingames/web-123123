@@ -1,4 +1,5 @@
 .about-us {
+  position: relative;
   scroll-margin-top: 92px;
   padding: 100px 0 112px;
   background: var(--ink);
@@ -43,9 +44,11 @@
 }
 
 .about-us__info {
+  position: absolute;
+  bottom: 12px;
+  left: 8px;
   display: flex;
   justify-content: flex-start;
-  margin-top: 24px;
 }
 
 .founder {

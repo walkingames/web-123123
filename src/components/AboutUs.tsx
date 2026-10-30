@@ -57,7 +57,7 @@ export default function AboutUs() {
       <div className="shell">
         <Reveal>
           <div className="about-us__header">
-            <p className="section-kicker">About us / The people behind the games</p>
+            <p className="section-kicker">Team / The people behind the games</p>
             <h2 id="about-us-heading">Two minds.<br /><span>One shared world.</span></h2>
           </div>
         </Reveal>
