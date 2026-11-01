@@ -1,30 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { lastModified, ogImageAlt, siteName, siteUrl } from "@/lib/site";
+import { PrivacyTable as Table } from "@/components/PrivacyTable";
+import { lastModified, ogImageAlt, privacyEffectiveDate, siteName, siteUrl } from "@/lib/site";
 import "./privacy.css";
 
-/* ─── Values only the controller can supply ──────────────────────────────────────
-   Everything the founders fill in lives in POLICY. A value written as
-   `toFill("…")` renders on the page as a highlighted "[TO FILL: …]" marker;
-   replacing it with the final text (a plain string) fills it everywhere it is used.
-   The page must not ship while any `toFill` is left. */
-type Fillable = string | { toFill: string };
-const toFill = (need: string): Fillable => ({ toFill: need });
-
 const POLICY = {
-  effectiveDate: toFill("effective date"),
-  controller: "Emrehan Dalaman",
+  effectiveDate: privacyEffectiveDate,
+  controllers: "Emrehan Dalaman and Yusuf Okuducu",
+  contactPoint: "Emrehan Dalaman",
   tradingName: "Walkin Games",
   postalAddress: "54292 Trier, Germany",
   phone: "+49 15510871276",
   email: "support@walkingames.com",
   policyUrl: "https://walkingames.com/privacy",
-  taxRetention: toFill("how long tax law requires us to keep exported order records (ask the tax advisor)"),
-  childrenRetentionPolicyLink: toFill("link to the published Children’s Data Retention Policy"),
-  turkiyeSafeguard: toFill(
-    "the safeguard for access to player data from Türkiye, or remove this point if no one outside the EU can reach player data",
-  ),
+  taxRetention:
+    "8 years from the end of the calendar year of the sale, or 10 years where a record forms part of our accounts (§ 147 of the German Fiscal Code)",
+  turkiyeSafeguard:
+    "One of us, Yusuf Okuducu, works from Türkiye, which has no EU adequacy decision, and can access player data in our dashboards and support mailbox. You can ask about this access, or complain about it, at support@walkingames.com.",
   authority: {
     name: "Der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Rheinland-Pfalz (LfDI Rheinland-Pfalz)",
     address: "Hintere Bleiche 34, 55116 Mainz, Germany",
@@ -92,11 +85,6 @@ const SECTIONS = [
   { id: "contact", title: "Contact" },
 ] as const;
 
-function Value({ v }: { v: Fillable }) {
-  if (typeof v === "string") return <>{v}</>;
-  return <mark className="privacy-fill">[TO FILL: {v.toFill}]</mark>;
-}
-
 function Section({ n, children }: { n: number; children: ReactNode }) {
   const { id, title: sectionTitle } = SECTIONS[n - 1];
   return (
@@ -128,36 +116,6 @@ function Facts({ items, wide = false }: { items: [string, ReactNode][]; wide?: b
   );
 }
 
-/** A table that becomes a stack of labelled cards on narrow screens. */
-function Table({ head, rows, label }: { head: string[]; rows: ReactNode[][]; label: string }) {
-  return (
-    <div className="privacy-table">
-      <table role="table" aria-label={label}>
-        <thead role="rowgroup">
-          <tr role="row">
-            {head.map((cell) => (
-              <th key={cell} scope="col" role="columnheader">
-                {cell}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody role="rowgroup">
-          {rows.map((row, r) => (
-            <tr key={r} role="row">
-              {row.map((cell, c) => (
-                <td key={c} role="cell" data-label={head[c]}>
-                  {cell}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
 const Mail = ({ to = POLICY.email }: { to?: string }) => <a href={`mailto:${to}`}>{to}</a>;
 const Ref = ({ to, children }: { to: string; children: ReactNode }) => <a href={`#${to}`}>{children}</a>;
 const Ext = ({ href, children }: { href: string; children?: ReactNode }) => (
@@ -168,7 +126,7 @@ const Ext = ({ href, children }: { href: string; children?: ReactNode }) => (
 
 const controllerLine = (
   <>
-    {POLICY.controller}, trading as {POLICY.tradingName}
+    {POLICY.controllers}, together as {POLICY.tradingName}
   </>
 );
 
@@ -195,7 +153,7 @@ export default function PrivacyPage() {
           <div className="privacy-hero__eyebrow">
             <p className="section-kicker">Walkin / Privacy policy</p>
             <span>
-              Effective <Value v={POLICY.effectiveDate} />
+              Effective {POLICY.effectiveDate}
             </span>
           </div>
           <h1 id="privacy-title">
@@ -211,7 +169,7 @@ export default function PrivacyPage() {
             <div>
               <dt>Effective date</dt>
               <dd>
-                <Value v={POLICY.effectiveDate} />
+                {POLICY.effectiveDate}
               </dd>
             </div>
             <div>
@@ -252,15 +210,21 @@ export default function PrivacyPage() {
             <article className="privacy-doc">
               <Section n={1}>
                 <p>
-                  Walkin is made by {POLICY.tradingName}, a small independent studio.{" "}
-                  {POLICY.controller}, trading as {POLICY.tradingName}, decides what data the game and
-                  this website use and why, so for privacy law he is the <strong>controller</strong>.
-                  In this policy, “we” and “us” mean {POLICY.tradingName}.
+                  Walkin is made by {POLICY.controllers}, a small independent studio working together as{" "}
+                  {POLICY.tradingName}. They are <strong>joint controllers</strong> (GDPR Article 26):
+                  they decide together what data is used and why. {POLICY.contactPoint}, at <Mail />, is
+                  your contact point. In this policy, “we” and “us” mean the two of them.
+                </p>
+                <p>
+                  Both of us decide how data is used and can access it. We publish one notice, share
+                  security and breach duties, and Emrehan answers requests. You may still exercise your
+                  rights against either of us, and either can be liable for all damage.
                 </p>
                 <Facts
                   wide
                   items={[
-                    ["Controller", controllerLine],
+                    ["Joint controllers", controllerLine],
+                    ["Contact point", POLICY.contactPoint],
                     ["Postal address", POLICY.postalAddress],
                     ["Phone", <a key="phone" href={`tel:${POLICY.phone.replace(/\s/g, "")}`}>{POLICY.phone}</a>],
                     ["Email for every privacy question", <strong key="email"><Mail /></strong>],
@@ -275,8 +239,10 @@ export default function PrivacyPage() {
               <Section n={2}>
                 <ul>
                   <li>
-                    <strong>No account, no name, no email, no location permission, no chat.</strong> You
-                    never type personal details into Walkin. Your progress is saved on your phone.
+                    <strong>No account of ours, no name, no email, no location permission, no chat.</strong>{" "}
+                    You never type personal details into Walkin. Your progress is saved on your phone
+                    and, if you have Google Play Games on Android, in your own Google account, so a
+                    reinstall or a new phone keeps it (<Ref to="play-games">3.1</Ref>).
                   </li>
                   <li>
                     <strong>We ask your age once</strong>, with a month-and-year screen. We keep only an
@@ -304,7 +270,7 @@ export default function PrivacyPage() {
                   </li>
                   <li>
                     <strong>Delete my data</strong> in Settings asks Unity to delete the analytics data
-                    about you.
+                    about you and deletes the Play Games copy of your save.
                   </li>
                   <li>
                     <strong>Our website has no analytics, no ads and no cookies.</strong> If you join the
@@ -365,6 +331,24 @@ export default function PrivacyPage() {
                   <strong>Android Auto Backup.</strong> Android may back up the save file and settings to{" "}
                   <em>your</em> Google account, so a reinstall restores your progress. Google stores that
                   backup; we cannot read it. You can turn backup off in Android’s settings.
+                </p>
+                <p id="play-games">
+                  <strong>Google Play Games (Android).</strong> The game signs in to Google Play Games
+                  automatically after the age screen, and stores a copy of your save in your own Google
+                  account as a Saved Game, so a reinstall or a new phone keeps your progress and
+                  purchases. The copy holds what the save holds: progress, wallet, purchase records with
+                  their store transaction IDs, settings. It leaves your phone and goes to Google, not to
+                  us: we cannot read it, and{" "}
+                  <strong>
+                    nothing new goes to Unity, and nothing about your Play Games identity goes to our
+                    analytics or to any ad network
+                  </strong>
+                  . Because it leaves your phone through Google’s software, our Data safety form on Google
+                  Play lists it as data the app collects and shares. Google handles it under its own
+                  privacy policy. This applies to every age band; if sign-in fails, the game simply stays
+                  on the save on your phone. On your phone, the game keeps only a short hash that tells two
+                  accounts apart. <em>Delete my data</em> deletes the copy and stops this install from
+                  writing another.
                 </p>
 
                 <Sub id="age-screen">3.2 The age screen</Sub>
@@ -619,7 +603,7 @@ export default function PrivacyPage() {
                       "Kept",
                       <>
                         The stores keep their records; we keep exported order data only as long as tax law
-                        requires: <Value v={POLICY.taxRetention} />.
+                        requires: {POLICY.taxRetention}.
                       </>,
                     ],
                   ]}
@@ -722,7 +706,8 @@ export default function PrivacyPage() {
 
                 <Sub id="what-we-do-not-do">What we do not do</Sub>
                 <p>
-                  No accounts or log-ins. No precise location. No contacts, photos, camera or microphone.
+                  No accounts or log-ins of our own (Google Play Games is Google’s). No precise location.
+                  No contacts, photos, camera or microphone.
                   No chat or anything another player can see. No automated decisions that have legal or
                   similarly significant effects on you (GDPR Art. 22). Personalised advertising by the ad
                   networks is profiling; it only happens with your consent.
@@ -775,6 +760,15 @@ export default function PrivacyPage() {
                   no name, no contact details. A child cannot make anything public in the game.
                 </p>
                 <p>
+                  <strong>Google Play Games.</strong> On Android the game also signs in to Google Play
+                  Games on the child path and keeps a copy of the save in the player’s own Google account (
+                  <Ref to="play-games">3.1</Ref>). That goes to Google, not to us, and we cannot read it. On
+                  a supervised child account a parent has to approve the Play Games profile first, and
+                  Google decides what that account may use. If it cannot sign in, the child keeps playing on
+                  the save on the phone. Parents can delete the copy with <em>Delete my data</em> or in the
+                  Play Games settings.
+                </p>
+                <p>
                   <strong>How we keep those identifiers from being used for anything else.</strong> Every
                   ad request on the child path carries the child-directed signals: LevelPlay’s COPPA and
                   child-directed flags, the device-ID opt-out, Google’s Families flag that allows only
@@ -782,9 +776,9 @@ export default function PrivacyPage() {
                   Under those flags the networks commit to contextual ads only and to not sharing
                   persistent identifiers with outside bidders. Unity Diagnostics uses the installation ID
                   only to group crash reports. Retention for each item:{" "}
-                  <Ref to="retention">section 6</Ref> and our Children’s Data Retention Policy (
-                  <Value v={POLICY.childrenRetentionPolicyLink} />
-                  ), which is part of this notice.
+                  <Ref to="retention">section 6</Ref> and our{" "}
+                  <Link href="/privacy/children-retention">Children’s Data Retention Policy</Link>, which
+                  is part of this notice.
                 </p>
                 <p>
                   <strong>In-app purchases by children</strong> go through Google Play or the App Store,
@@ -830,7 +824,7 @@ export default function PrivacyPage() {
                       </>,
                     ],
                     [
-                      "Delete my analytics data",
+                      "Delete my analytics data and the Play Games copy of my save",
                       <>
                         <strong>Settings → Delete my data</strong>
                       </>,
@@ -877,13 +871,20 @@ export default function PrivacyPage() {
                       "Save, age band, choices, local log",
                       "on your phone; the log 7 days; the rest until you uninstall",
                     ],
+                    [
+                      "The Play Games copy of your save",
+                      <>
+                        in your Google account until you tap <em>Delete my data</em> or delete it in your
+                        Play Games settings
+                      </>,
+                    ],
                     ["UGS Analytics (players who said yes)", "13 months, then deleted by Unity"],
                     ["Unity Diagnostics crash reports", "90 days, then deleted by Unity"],
                     [
                       "Ad networks",
                       "under each network’s policy — Unity up to 12 months; Google removes part of the IP address after 9 months",
                     ],
-                    ["Order records we export", <Value key="tax" v={POLICY.taxRetention} />],
+                    ["Order records we export", POLICY.taxRetention],
                     [
                       "Emails to support",
                       "12 months after the conversation ends; a child’s email is deleted right after we answer",
@@ -918,10 +919,11 @@ export default function PrivacyPage() {
                       "same as above",
                     ],
                     [
-                      "Google (AdMob, Google Play, Play Install Referrer, Android backup)",
+                      "Google (AdMob, Google Play, Play Games, Play Install Referrer, Android backup)",
                       "independent controller",
                       <>
-                        <Ref to="advertising">3.5</Ref>, <Ref to="purchases">3.6</Ref>,{" "}
+                        <Ref to="play-games">3.1</Ref>, <Ref to="advertising">3.5</Ref>,{" "}
+                        <Ref to="purchases">3.6</Ref>,{" "}
                         <Ref to="install-referrer">3.7</Ref>
                       </>,
                       <>
@@ -966,7 +968,7 @@ export default function PrivacyPage() {
               </Section>
 
               <Section n={8}>
-                <p>We are based in Germany. Some partners process data outside the EU/EEA:</p>
+                <p>We work from Germany and Türkiye. Some partners process data outside the EU/EEA:</p>
                 <ul>
                   <li>
                     <strong>Unity</strong> (USA) relies on the European Commission’s{" "}
@@ -985,7 +987,7 @@ export default function PrivacyPage() {
                     Privacy Framework.
                   </li>
                   <li>
-                    <Value v={POLICY.turkiyeSafeguard} />
+                    {POLICY.turkiyeSafeguard}
                   </li>
                 </ul>
               </Section>
@@ -1009,8 +1011,8 @@ export default function PrivacyPage() {
                 <p>
                   <strong>How to ask:</strong> email <Mail />. We answer within <strong>one month</strong>;
                   for complex requests we may need two more months and will tell you why. It is free.
-                  Because Walkin has no accounts, we may not be able to find data about you from your
-                  email alone. If we cannot identify you, we will tell you, and you can help by sending
+                  Because Walkin has no accounts of its own and we cannot read your Play Games copy, we
+                  may not be able to find data about you from your email alone. If we cannot identify you, we will tell you, and you can help by sending
                   the details in <Ref to="children">section 4</Ref>.
                 </p>
                 <p>
@@ -1037,8 +1039,13 @@ export default function PrivacyPage() {
                   <li>
                     <strong>Settings → Delete my data</strong> asks Unity to delete the analytics data
                     linked to your installation and stops analytics on this phone. Unity completes
-                    deletion within <strong>30 days</strong>. The game keeps working; your save is not
-                    touched.
+                    deletion within <strong>30 days</strong>. It also deletes the Play Games copy of your
+                    save. The game keeps working; the save on your phone is not touched.
+                  </li>
+                  <li>
+                    <strong>The Play Games copy of your save</strong> stays in your Google account until
+                    you tap <em>Delete my data</em>, or delete it in your Play Games settings. It survives
+                    an uninstall: that is its purpose.
                   </li>
                   <li>
                     <strong>Crash reports</strong> expire after 90 days. To have them deleted sooner, email
@@ -1084,7 +1091,8 @@ export default function PrivacyPage() {
                   wide
                   items={[
                     ["Email", <strong key="email"><Mail /></strong>],
-                    ["Controller", controllerLine],
+                    ["Joint controllers", controllerLine],
+                    ["Contact point", POLICY.contactPoint],
                     ["Postal address", POLICY.postalAddress],
                     ["Phone", <a key="phone" href={`tel:${POLICY.phone.replace(/\s/g, "")}`}>{POLICY.phone}</a>],
                   ]}
