@@ -15,10 +15,13 @@ export const ogImageAlt = "WalkinGames — independent game studio";
 export const journeyOgImageAlt = "Walkin development journey — March to September 2026";
 export const waitlistOgImageAlt = "Join the Walkin waitlist — WalkinGames";
 
+/** The day the privacy policy and the children's retention policy go live. Set it when they merge. */
+export const privacyEffectiveDate = "1 November 2026";
+
 /** Update these when the page content meaningfully changes. */
 export const lastModified = {
   home: "2026-10-30",
   journey: "2026-09-30",
   waitlist: "2026-10-09",
-  privacy: "2026-10-28",
+  privacy: "2026-11-01",
 } as const;
