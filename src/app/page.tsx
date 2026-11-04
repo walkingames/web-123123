@@ -42,6 +42,7 @@ const jsonLd = {
       "@id": `${siteUrl}/#website`,
       url: siteUrl,
       name: siteName,
+      alternateName: ["Walkin Games", "walkingames.com"],
       publisher: { "@id": `${siteUrl}/#organization` },
       inLanguage: "en",
     },

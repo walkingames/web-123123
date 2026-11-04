@@ -235,11 +235,12 @@ export default function WalkinProjectCard({ project }: { project: WalkinProject 
                   <span className="signal-dot signal-dot--walkin" aria-hidden="true" />
                   {project.stage}
                 </div>
-                <h3 className="project-card__title">{project.title}</h3>
+                <h3 className="project-card__title"><Link href="/games/walkin">{project.title}</Link></h3>
               </div>
               <div className="project-card__story">
                 <p className="project-card__summary">{project.summary}</p>
                 <p className="project-card__description">{project.description}</p>
+                <Link className="text-link" href="/games/walkin">Explore Walkin <span aria-hidden="true">↗</span></Link>
               </div>
               <dl className="project-card__details">
                 {project.details.map((detail) => (

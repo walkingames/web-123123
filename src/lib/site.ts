@@ -20,8 +20,11 @@ export const privacyEffectiveDate = "1 November 2026";
 
 /** Update these when the page content meaningfully changes. */
 export const lastModified = {
-  home: "2026-10-30",
+  home: "2026-11-04",
   journey: "2026-09-30",
   waitlist: "2026-10-09",
+  walkin: "2026-11-04",
+  duskfall: "2026-11-04",
+  about: "2026-11-04",
   privacy: "2026-11-01",
 } as const;

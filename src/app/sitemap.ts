@@ -24,5 +24,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
       images: [`${siteUrl}/images/walkin-icon.png`],
     },
+    {
+      url: `${siteUrl}/games/walkin`,
+      lastModified: lastModified.walkin,
+      changeFrequency: "monthly",
+      priority: 0.9,
+      images: [`${siteUrl}/images/walkin-wallpaper.png`, `${siteUrl}/images/walkin-icon.png`],
+    },
+    {
+      url: `${siteUrl}/games/duskfall-requiem`,
+      lastModified: lastModified.duskfall,
+      changeFrequency: "monthly",
+      priority: 0.8,
+      images: [`${siteUrl}/images/DuskfallRequiem.png`],
+    },
+    {
+      url: `${siteUrl}/about`,
+      lastModified: lastModified.about,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
   ];
 }

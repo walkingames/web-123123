@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import WalkinProjectCard from "./WalkinProjectCard";
 import Reveal from "./motion/Reveal";
 
@@ -127,11 +128,12 @@ export default function ProjectShowcase() {
                         <span className="signal-dot signal-dot--duskfall" aria-hidden="true" />
                         {project.stage}
                       </div>
-                      <h3 className="project-card__title">{project.title}</h3>
+                      <h3 className="project-card__title"><Link href={`/games/${project.slug}`}>{project.title}</Link></h3>
                     </div>
                     <div className="project-card__story">
                       <p className="project-card__summary">{project.summary}</p>
                       <p className="project-card__description">{project.description}</p>
+                      <Link className="text-link" href={`/games/${project.slug}`}>Explore {project.title} <span aria-hidden="true">↗</span></Link>
                     </div>
                     <dl className="project-card__details">
                       {project.details.map((detail) => (

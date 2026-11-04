@@ -7,7 +7,7 @@ import type { MouseEvent, ReactNode } from "react";
 const SOCIAL_LINKS = [
   { id: "x", label: "X", href: "https://x.com/walkin_games" },
   { id: "instagram", label: "Instagram", href: "https://www.instagram.com/walkingames" },
-  { id: "youtube", label: "YouTube", href: "https://www.youtube.com/@walkingames-01" },
+  { id: "youtube", label: "YouTube", href: "https://www.youtube.com/@walkin_games" },
   { id: "tiktok", label: "TikTok", href: "https://www.tiktok.com/@walkin.games" },
 ] as const;
 
@@ -36,12 +36,12 @@ const NAV_ITEMS: { label: string; href: string; mega?: { title: string; image: s
     label: "Games",
     href: "#games",
     mega: [
-      { title: "Walkin", image: "/images/walkin-wallpaper.png", imageAlt: "Walkin key art", href: "#project-walkin" },
-      { title: "Duskfall Requiem", image: "/images/DuskfallRequiem.png", imageAlt: "Duskfall Requiem key art", href: "#project-duskfall-requiem" },
+      { title: "Walkin", image: "/images/walkin-wallpaper.png", imageAlt: "Walkin key art", href: "/games/walkin" },
+      { title: "Duskfall Requiem", image: "/images/DuskfallRequiem.png", imageAlt: "Duskfall Requiem key art", href: "/games/duskfall-requiem" },
     ],
   },
   { label: "Direction", href: "#direction" },
-  { label: "Team", href: "#about-us" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "#contact" },
 ];
 
