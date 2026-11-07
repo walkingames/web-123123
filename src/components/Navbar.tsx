@@ -41,7 +41,7 @@ const NAV_ITEMS: { label: string; href: string; mega?: { title: string; image: s
     ],
   },
   { label: "Direction", href: "#direction" },
-  { label: "About", href: "/about" },
+  { label: "Team", href: "#about-us" },
   { label: "Contact", href: "#contact" },
 ];
 

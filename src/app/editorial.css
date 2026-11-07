@@ -37,7 +37,7 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .error-page h1 { font: clamp(72px, 12vw, 160px)/1 var(--font-display); text-transform: uppercase; margin-block: 32px; }
 .error-page > p:not(.section-kicker) { color: var(--muted); margin-bottom: 32px; }
 .error-page .text-link { margin: 12px; }
-.scroll-progress { position: fixed; inset: 0 0 auto; height: 2px; z-index: 120; background: var(--accent); transform-origin: left; pointer-events: none; }
+.scroll-progress { position: fixed; inset: 0 0 auto; height: 2px; z-index: 120; background: linear-gradient(90deg, var(--accent) 0%, #baff54 16%, #45e2b8 34%, #47c4ff 52%, #6974ff 70%, #c45bff 86%, #ff658e 100%); pointer-events: none; }
 .section-kicker, .hero__eyebrow, .project-card__stage, .roadmap__label { font: 10px/1.5 var(--font-mono); text-transform: uppercase; letter-spacing: .1em; }
 .section-kicker { margin: 0; display: flex; align-items: center; gap: 14px; }
 .section-kicker::before { content: ""; width: 7px; height: 7px; background: currentColor; flex-shrink: 0; }
