@@ -30,6 +30,7 @@ export default function ContactSection() {
         <p>&copy; {new Date().getFullYear()} WalkinGames. All rights reserved.</p>
         <div className="site-footer__links">
           <Link href="/privacy">Privacy</Link>
+          <Link href="/terms">Terms</Link>
           <a href="#about">Back to top ↑</a>
         </div>
       </footer>

@@ -18,6 +18,9 @@ export const waitlistOgImageAlt = "Join the Walkin waitlist — WalkinGames";
 /** The day the privacy policy and the children's retention policy go live. Set it when they merge. */
 export const privacyEffectiveDate = "1 November 2026";
 
+/** The day the current terms of service took effect. */
+export const termsEffectiveDate = "23 November 2026";
+
 /** Update these when the page content meaningfully changes. */
 export const lastModified = {
   home: "2026-11-04",
@@ -27,4 +30,5 @@ export const lastModified = {
   duskfall: "2026-11-04",
   about: "2026-11-04",
   privacy: "2026-11-01",
+  terms: "2026-11-23",
 } as const;

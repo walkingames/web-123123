@@ -28,6 +28,7 @@ export default function StudioPageFrame({ children }: { children: ReactNode }) {
           <Link href="/games/duskfall-requiem">Duskfall Requiem</Link>
           <Link href="/about">About</Link>
           <Link href="/privacy">Privacy</Link>
+          <Link href="/terms">Terms</Link>
         </nav>
         <p>Independent games by WalkinGames.</p>
       </footer>
